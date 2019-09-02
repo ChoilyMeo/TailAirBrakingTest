@@ -1,0 +1,42 @@
+package com.thnet.tailairbrakingtest.TestWind;
+
+import android.util.Log;
+
+import com.thnet.tailairbrakingtest.CustomApplication.WindTestApplication;
+import com.thnet.tailairbrakingtest.DAO.DaoSession;
+import com.thnet.tailairbrakingtest.DAO.UserInfo;
+
+import java.util.List;
+
+public class TestOperator {
+    private static final String TAG = TestOperator.class.getSimpleName();
+    private static UserInfo currentUser;
+
+    public static List<UserInfo> getAllUserInfo(){
+        List<UserInfo> userInfos;
+        try {
+            DaoSession daoSession = WindTestApplication.getWindTestInstance().getDaoSession();
+            userInfos = daoSession.loadAll(UserInfo.class);
+        }
+        catch (Exception ex){
+            Log.e(TAG, ex.getMessage());
+            userInfos = null;
+        }
+        return userInfos;
+    }
+
+    public static boolean checkUserPassword(UserInfo userInfo, String pwd){
+        if (null != userInfo && null != userInfo.getUserPwd() && userInfo.getUserPwd().endsWith(pwd)){
+            return true;
+        }
+        return false;
+    }
+
+    public static UserInfo getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(UserInfo currentUser) {
+        TestOperator.currentUser = currentUser;
+    }
+}

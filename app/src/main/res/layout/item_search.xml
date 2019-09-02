@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/space_15"
+    android:paddingRight="@dimen/space_15">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_marginBottom="@dimen/space_5">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="车次:"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_1" />
+        <TextView
+            android:id="@+id/tv_trainNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="g1233"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_4"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="股道:"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_1" />
+        <TextView
+            android:id="@+id/tv_track"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_4" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="辆数:"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_1" />
+        <TextView
+            android:id="@+id/tv_trainCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_4" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="阀号:"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_1" />
+        <TextView
+            android:id="@+id/tv_valveNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_4" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="定压:"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_1" />
+        <TextView
+            android:id="@+id/tv_specifiedPressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="600"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_4" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/space_5"
+        android:layout_marginBottom="@dimen/space_5">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="时间："
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_10" />
+        <TextView
+            android:id="@+id/tv_testDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019-05-17"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_10" />
+        <TextView
+            android:id="@+id/tv_testStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11:23:55"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_10" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="~"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_10" />
+        <TextView
+            android:id="@+id/tv_testEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="16:23:55"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginRight="@dimen/space_10" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_gray_c"
+        android:layout_marginBottom="@dimen/space_1"
+        android:layout_marginTop="@dimen/space_5"/>
+</LinearLayout>
