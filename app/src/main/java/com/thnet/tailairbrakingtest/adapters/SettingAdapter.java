@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.thnet.tailairbrakingtest.DAO.SysParms;
+import com.thnet.tailairbrakingtest.dao.SysParms;
 import com.thnet.tailairbrakingtest.R;
 
 import java.util.List;

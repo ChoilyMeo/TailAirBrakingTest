@@ -198,11 +198,11 @@ int set_opt(int fd, int nSpeed, int flow_ctrl, int nBits, char nEvent, int nStop
     return 0;
 }
 /*
- * Class:     android_serialport_SerialPort
+ * Class:     com_thnet_airbraketest_serialport
  * Method:    open
  * Signature: (Ljava/lang/String;II)Ljava/io/FileDescriptor;
  */
-JNIEXPORT jobject JNICALL Java_com_thnet_airbraketest_SerialPort_SerialPort_open
+JNIEXPORT jobject JNICALL Java_com_thnet_tailairbrakingtest_serialport_SerialPort_open
         (JNIEnv *env, jclass thiz, jstring path, jint baudrate, jint flags) {
     int fd;
     speed_t speed;
@@ -279,11 +279,11 @@ JNIEXPORT jobject JNICALL Java_com_thnet_airbraketest_SerialPort_SerialPort_open
 }
 
 /*
- * Class:     cedric_serial_SerialPort
+ * Class:     com_thnet_airbraketest_serialport
  * Method:    close
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_thnet_airbraketest_SerialPort_SerialPort_close
+JNIEXPORT void JNICALL Java_com_thnet_tailairbrakingtest_serialport_SerialPort_close
         (JNIEnv *env, jobject thiz) {
     jclass SerialPortClass = (*env)->GetObjectClass(env, thiz);
     jclass FileDescriptorClass = (*env)->FindClass(env, "java/io/FileDescriptor");
@@ -298,11 +298,11 @@ JNIEXPORT void JNICALL Java_com_thnet_airbraketest_SerialPort_SerialPort_close
     close(descriptor);
 }
 /*
-*Class : android_serial_SerialPort
+*Class : com_thnet_airbraketest_serialport
 *Method : tcflush
 *Signature ()V
 */
-JNIEXPORT void JNICALL Java_com_thnet_airbraketest_SerialPort_SerialPort_tcflush
+JNIEXPORT void JNICALL Java_com_thnet_tailairbrakingtest_serialport_SerialPort_tcflush
         (JNIEnv *env, jobject thiz) {
 
     jclass SerialPortClass = (*env)->GetObjectClass(env, thiz);

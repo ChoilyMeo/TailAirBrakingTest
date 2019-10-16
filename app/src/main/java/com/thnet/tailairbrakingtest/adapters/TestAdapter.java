@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.thnet.tailairbrakingtest.DAO.TestDetail;
+import com.thnet.tailairbrakingtest.dao.TestDetail;
 import com.thnet.tailairbrakingtest.R;
 
 import java.util.ArrayList;
@@ -50,8 +50,6 @@ public class TestAdapter extends BaseAdapter {
             holder.tvKeepTime = convertView.findViewById(R.id.item_keepTime);
             holder.tvLeakValue = convertView.findViewById(R.id.item_leakValue);
             holder.tvDropValue = convertView.findViewById(R.id.item_dropValue);
-            holder.tvDropTime = convertView.findViewById(R.id.item_dropTime);
-            holder.tvDropSpeed = convertView.findViewById(R.id.item_dropSpeed);
             holder.tvStartTime = convertView.findViewById(R.id.item_testStartTime);
             holder.tvEndTime = convertView.findViewById(R.id.item_testEndTime);
             convertView.setTag(holder);
@@ -64,8 +62,6 @@ public class TestAdapter extends BaseAdapter {
         holder.tvKeepTime.setText(((TestDetail)getItem(position)).getKeepTime());
         holder.tvLeakValue.setText(String.valueOf(((TestDetail)getItem(position)).getLeakValue()));
         holder.tvDropValue.setText(((TestDetail)getItem(position)).getDropValue());
-        holder.tvDropTime.setText(String.valueOf(((TestDetail)getItem(position)).getDropTime()));
-        holder.tvDropSpeed.setText(((TestDetail)getItem(position)).getDropSpeed());
         holder.tvStartTime.setText(String.valueOf(((TestDetail)getItem(position)).getBeginTime()));
         holder.tvEndTime.setText(((TestDetail)getItem(position)).getEndTime());
         return convertView;
@@ -78,8 +74,6 @@ public class TestAdapter extends BaseAdapter {
         private  TextView tvKeepTime;
         private  TextView tvLeakValue;
         private  TextView tvDropValue;
-        private  TextView tvDropTime;
-        private  TextView tvDropSpeed;
         private  TextView tvStartTime;
         private  TextView tvEndTime;
     }

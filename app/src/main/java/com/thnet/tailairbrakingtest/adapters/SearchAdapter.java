@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.thnet.tailairbrakingtest.DAO.TestWindContent;
+import com.thnet.tailairbrakingtest.dao.TestWindContent;
 import com.thnet.tailairbrakingtest.R;
 
 import java.util.List;
@@ -47,8 +47,8 @@ public class SearchAdapter extends BaseAdapter {
             holder.tvTrainNo = convertView.findViewById(R.id.tv_trainNo);
             holder.tvTrack = convertView.findViewById(R.id.tv_track);
             holder.tvTrainCount = convertView.findViewById(R.id.tv_trainCount);
-            holder.tvValveNo = convertView.findViewById(R.id.tv_valveNo);
             holder.tvSpecifiedPressure = convertView.findViewById(R.id.tv_specifiedPressure);
+            holder.tvTestKind = convertView.findViewById(R.id.tv_testKind);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
@@ -59,8 +59,8 @@ public class SearchAdapter extends BaseAdapter {
         holder.tvTrainNo.setText(((TestWindContent)getItem(position)).getTrainNo());
         holder.tvTrack.setText(((TestWindContent)getItem(position)).getLine());
         holder.tvTrainCount.setText(((TestWindContent)getItem(position)).getTrainCount());
-        holder.tvValveNo.setText(((TestWindContent)getItem(position)).getValveNo());
         holder.tvSpecifiedPressure.setText(((TestWindContent)getItem(position)).getSpecifyPressure());
+        holder.tvTestKind.setText(((TestWindContent)getItem(position)).getTestKind());
         return convertView;
     }
 
@@ -71,7 +71,7 @@ public class SearchAdapter extends BaseAdapter {
         private TextView tvTrainNo;
         private TextView tvTrack;
         private TextView tvTrainCount;
-        private TextView tvValveNo;
         private TextView tvSpecifiedPressure;
+        private TextView tvTestKind;
     }
 }

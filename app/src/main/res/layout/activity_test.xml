@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/color_white"
-    tools:context=".Activitys.TestActivity">
+    tools:context=".activitys.TestActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,325 +15,53 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="股道:2"
+            android:text="股道:"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14"/>
+        <TextView
+            android:id="@+id/tv_trackNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
             android:textColor="@color/color_black"
             android:textSize="@dimen/text_size_14"
             android:layout_marginRight="@dimen/space_10" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="车次:g1233"
+            android:text="车次:"
             android:textColor="@color/color_black"
-            android:textSize="@dimen/text_size_14"
-            android:layout_marginRight="@dimen/space_10"/>
+            android:textSize="@dimen/text_size_14"/>
         <TextView
+            android:id="@+id/tv_trainNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="辆数:1"
+            android:text="T6551"
             android:textColor="@color/color_black"
             android:textSize="@dimen/text_size_14"
             android:layout_marginRight="@dimen/space_10" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="阀号:1"
+            android:text="辆数:"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14" />
+        <TextView
+            android:id="@+id/tv_trainCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="16"
             android:textColor="@color/color_black"
             android:textSize="@dimen/text_size_14"
             android:layout_marginRight="@dimen/space_10" />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_allbtns"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="@dimen/space_10"
-            android:layout_marginRight="@dimen/space_10">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="准备作业"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_5"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="取消作业"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_5"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="结束作业"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_5"/>
-        </LinearLayout>
-        <GridLayout
-            android:id="@+id/gl_testWind"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="3"
-            android:orientation="horizontal"
-            android:rowCount="3"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/space_5">
-            <TextView
-                android:text="充风缓解"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_10"
-                android:layout_marginRight="@dimen/space_5"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_columnWeight="1"/>
-            <TextView
-                android:text="漏泄实验"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_5"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:layout_columnWeight="1"/>
-            <TextView
-                android:text="感度试验"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_10"
-                android:layout_row="0"
-                android:layout_column="2"
-                android:layout_columnWeight="1"/>
-            <TextView
-                android:text="安定实验"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_10"
-                android:layout_marginRight="@dimen/space_5"
-                android:layout_marginTop="@dimen/space_5"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_columnWeight="1"/>
-            <TextView
-                android:text="持续保压"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_5"
-                android:layout_marginTop="@dimen/space_5"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:layout_columnWeight="1"/>
-            <TextView
-                android:text="简略实验"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_10"
-                android:layout_marginTop="@dimen/space_5"
-                android:layout_row="1"
-                android:layout_column="2"
-                android:layout_columnWeight="1"/>
-            <TextView
-                android:text="简略实验"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_10"
-                android:layout_marginRight="@dimen/space_5"
-                android:layout_marginTop="@dimen/space_5"
-                android:layout_row="2"
-                android:layout_column="0"
-                android:layout_columnWeight="1"/>
-        </GridLayout>
-        <GridLayout
-            android:id="@+id/gl_enginery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="3"
-            android:orientation="horizontal"
-            android:rowCount="2"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/space_5">
-            <TextView
-                android:text="机能缓解"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_10"
-                android:layout_marginRight="@dimen/space_5"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_columnWeight="1"/>
-            <TextView
-                android:text="机能漏泄"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_5"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:layout_columnWeight="1"/>
-            <TextView
-                android:text="感度制动"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_10"
-                android:layout_row="0"
-                android:layout_column="2"
-                android:layout_columnWeight="1"/>
-            <TextView
-                android:text="感度缓解"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_10"
-                android:layout_marginRight="@dimen/space_5"
-                android:layout_marginTop="@dimen/space_5"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_columnWeight="1"/>
-            <TextView
-                android:text="机能安定"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_5"
-                android:layout_marginTop="@dimen/space_5"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:layout_columnWeight="1"/>
-        </GridLayout>
-        <LinearLayout
-            android:id="@+id/ll_check"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="@dimen/space_10"
-            android:layout_marginRight="@dimen/space_10"
-            android:layout_marginTop="@dimen/space_5"
-            android:visibility="gone">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="压力校准"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
-                android:background="@color/color_gray_c"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_5"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_5"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/space_5"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_weight="1"/>
-        </LinearLayout>
-    </LinearLayout>
-    <TextView
-        android:id="@+id/tv_hideControl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="隐藏控制"
-        android:textColor="@color/color_black"
-        android:textSize="@dimen/text_size_14"
-        android:background="@drawable/bg_white_line_gray"
-        android:gravity="center"
-        android:paddingTop="@dimen/space_5"
-        android:paddingBottom="@dimen/space_5"
-        android:paddingLeft="@dimen/space_15"
-        android:paddingRight="@dimen/space_15"
-        android:layout_marginRight="@dimen/space_10"
-        android:layout_gravity="right"
-        android:layout_marginTop="@dimen/space_5"
-        android:visibility="visible"/>
 
     <LinearLayout
         android:id="@+id/ll_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
@@ -347,11 +75,12 @@
             android:layout_marginLeft="@dimen/space_10"
             android:layout_marginRight="@dimen/space_10">
             <TextView
+                android:id="@+id/tv_testName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="@color/color_black"
-                android:textSize="@dimen/text_size_14"
+                android:textSize="@dimen/text_size_20"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/space_10"/>
@@ -372,6 +101,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <LinearLayout
+                        android:id="@+id/ll_mainPressureValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -383,8 +113,10 @@
                             android:textColor="@color/color_black"
                             android:textSize="@dimen/text_size_14"/>
                         <EditText
+                            android:id="@+id/et_mainPressureValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="false"
                             android:text="0"
                             android:textColor="@color/color_black"
                             android:textSize="@dimen/text_size_14"
@@ -397,6 +129,7 @@
                             android:textSize="@dimen/text_size_14"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/ll_dropValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -408,9 +141,11 @@
                             android:textColor="@color/color_black"
                             android:textSize="@dimen/text_size_14"/>
                         <EditText
+                            android:id="@+id/et_dropValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
+                            android:enabled="false"
                             android:textColor="@color/color_black"
                             android:textSize="@dimen/text_size_14"
                             android:minWidth="@dimen/space_30"/>
@@ -427,6 +162,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <LinearLayout
+                        android:id="@+id/ll_keepTime"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -438,8 +174,10 @@
                             android:textColor="@color/color_black"
                             android:textSize="@dimen/text_size_14"/>
                         <EditText
+                            android:id="@+id/et_keepTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="false"
                             android:text="0"
                             android:textColor="@color/color_black"
                             android:textSize="@dimen/text_size_14"
@@ -452,6 +190,7 @@
                             android:textSize="@dimen/text_size_14"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/ll_leakValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -463,8 +202,10 @@
                             android:textColor="@color/color_black"
                             android:textSize="@dimen/text_size_14"/>
                         <EditText
+                            android:id="@+id/et_leakValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="false"
                             android:text="0"
                             android:textColor="@color/color_black"
                             android:textSize="@dimen/text_size_14"
@@ -493,17 +234,18 @@
             android:layout_marginRight="@dimen/space_10"
             android:layout_marginTop="@dimen/space_10">
             <TextView
-                android:id="@+id/tv_showControl"
+                android:id="@+id/tv_testLeak"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="显示控制"
+                android:text="漏泄试验"
                 android:textColor="@color/color_black"
                 android:textSize="@dimen/text_size_14"
                 android:background="@drawable/bg_white_line_gray"
                 android:gravity="center"
                 android:paddingTop="@dimen/space_5"
                 android:paddingBottom="@dimen/space_5"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/tv_save"
                 android:layout_width="0dp"
@@ -522,7 +264,7 @@
                 android:id="@+id/tv_exit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="退出"
+                android:text="取消"
                 android:textColor="@color/color_black"
                 android:textSize="@dimen/text_size_14"
                 android:background="@drawable/bg_white_line_gray"
@@ -532,4 +274,9 @@
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
+    <com.thnet.tailairbrakingtest.customcontrol.ChartView
+        android:id="@+id/image_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/space_5"/>
 </LinearLayout>
