@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.thnet.tailairbrakingtest.dao.UserInfo;
 import com.thnet.tailairbrakingtest.R;
+import com.thnet.tailairbrakingtest.serialport.RF433PowerControl;
 import com.thnet.tailairbrakingtest.testwind.SysParamsAll;
 import com.thnet.tailairbrakingtest.testwind.TestOperator;
 import com.thnet.tailairbrakingtest.adapters.UserAdapter;
@@ -131,6 +132,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
+                RF433PowerControl.powerOff();
                 finish();
                 System.exit(0);
             }

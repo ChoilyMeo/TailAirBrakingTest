@@ -75,8 +75,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_test);
         dt = new DataTransfer();
-        //433模块上电
-        RF433PowerControl.powerOn();
         int intentType = getIntent().getIntExtra(PARAM_INTENT_TYPE,0);
         trackNo = getIntent().getStringExtra(PARAM_TRACK);
         trainNo = getIntent().getStringExtra(PARAM_TRAIN_NO);
@@ -103,8 +101,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         //停止定时器
         serviceSendCmd.shutdown();
         dt.stopWatch();
-        //433模块断电
-        RF433PowerControl.powerOff();
     }
 
     @Override
@@ -112,8 +108,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         //停止定时器
         serviceSendCmd.shutdown();
         dt.stopWatch();
-        //433模块断电
-        RF433PowerControl.powerOff();
         super.onDestroy();
     }
 

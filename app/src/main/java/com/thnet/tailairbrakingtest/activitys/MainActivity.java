@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.thnet.tailairbrakingtest.customapplication.WindTestApplication;
 import com.thnet.tailairbrakingtest.dao.UserInfo;
 import com.thnet.tailairbrakingtest.R;
+import com.thnet.tailairbrakingtest.serialport.RF433PowerControl;
 import com.thnet.tailairbrakingtest.testwind.SysParamsAll;
 import com.thnet.tailairbrakingtest.testwind.TestOperator;
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intentS);
                 break;
             case R.id.tv_exit:
+                RF433PowerControl.powerOff();
                 finish();
                 System.exit(0);
                 break;

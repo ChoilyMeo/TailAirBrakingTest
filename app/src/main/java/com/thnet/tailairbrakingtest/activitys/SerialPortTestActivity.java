@@ -51,9 +51,6 @@ public class SerialPortTestActivity extends Activity implements OnOpenSerialPort
         btn_sendData = (Button)findViewById(R.id.btn_sendData);
         btn_sendData.setEnabled(false);
         mSerialPortManager = new SerialPortManager();
-
-        //433模块上电
-        RF433PowerControl.powerOn();
     }
 
     @Override
@@ -63,8 +60,6 @@ public class SerialPortTestActivity extends Activity implements OnOpenSerialPort
             mSerialPortManager.closeSerialPort();
             mSerialPortManager = null;
         }
-        //433模块断电
-        RF433PowerControl.powerOff();
         super.onDestroy();
     }
 

@@ -7,8 +7,8 @@ android {
         applicationId "com.thnet.tailairbrakingtest"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.0.0.2"
+        versionCode 3
+        versionName "1.0.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -22,6 +22,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean" , "USE_LOCAL_TEST_DATA" , "false"
+            buildConfigField "boolean" , "CONTROL_RF433_POWER_OFF" , "false"
+        }
+        debug {
+            buildConfigField "boolean" , "USE_LOCAL_TEST_DATA" , "true"
+            buildConfigField "boolean" , "CONTROL_RF433_POWER_OFF" , "false"
         }
     }
     externalNativeBuild {
@@ -40,6 +46,13 @@ android {
             reset()
             include 'armeabi-v7a'
             universalApk false
+        }
+    }
+    android.applicationVariants.all {
+        variant->variant.outputs.all{
+            output->
+                def abiName = output.getFilter(com.android.build.OutputFile.ABI)
+                output.outputFileName = "lwsf_V${variant.versionName}_${abiName}_${variant.buildType.name}.APK"
         }
     }
 }

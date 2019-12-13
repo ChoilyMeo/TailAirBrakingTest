@@ -17,6 +17,7 @@ import com.thnet.tailairbrakingtest.BuildConfig;
 import com.thnet.tailairbrakingtest.dao.DaoMaster;
 import com.thnet.tailairbrakingtest.dao.DaoSession;
 import com.thnet.tailairbrakingtest.R;
+import com.thnet.tailairbrakingtest.serialport.RF433PowerControl;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,6 +35,8 @@ public class WindTestApplication extends Application {
         initXlogEnv();
         initDatabase();
         instance = this;
+        //程序启动即打开433模块
+        RF433PowerControl.powerOn();
     }
 
     private void initXlogEnv() {
