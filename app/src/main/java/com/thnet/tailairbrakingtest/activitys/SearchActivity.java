@@ -1,5 +1,7 @@
 package com.thnet.tailairbrakingtest.activitys;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.elvishew.xlog.XLog;
 import com.thnet.tailairbrakingtest.customapplication.WindTestApplication;
 import com.thnet.tailairbrakingtest.dao.DaoSession;
 import com.thnet.tailairbrakingtest.dao.TestKind;
@@ -63,6 +66,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.starttime_layout).setOnClickListener(this);
         findViewById(R.id.endtime_layout).setOnClickListener(this);
         findViewById(R.id.btn_query).setOnClickListener(this);
+        findViewById(R.id.btn_clear).setOnClickListener(this);
         edtTrainNo = findViewById(R.id.edt_trainNo);
         tvStartDate = findViewById(R.id.start_date_tv);
         tvStartDate.setText(DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_yyyyMMdd));
@@ -134,11 +138,39 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
                 catch (Exception ex){
-                    Log.e(TAG, ex.getMessage());
+                    XLog.e(TAG + ex.getMessage());
                     testWindContentList = null;
                 }
                 if(null == testWindContentList){testWindContentList = new ArrayList<>();}
                 searchAdapter.notifyDataSetChanged();
+                break;
+            case R.id.btn_clear:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("提示");
+                builder.setMessage("是否清除所有试验记录？");
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //toast("取消");
+                    }
+                });
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try{
+                            testWindContentList.clear();
+                            DaoSession daoSession = WindTestApplication.getWindTestInstance().getDaoSession();
+                            daoSession.getPressureValueDao().deleteAll();
+                            daoSession.getTestDetailDao().deleteAll();
+                            daoSession.getTestWindContentDao().deleteAll();
+                            searchAdapter.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            XLog.e(TAG + "删除数据异常：" + e);
+                        }
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
                 break;
             default:
                 break;

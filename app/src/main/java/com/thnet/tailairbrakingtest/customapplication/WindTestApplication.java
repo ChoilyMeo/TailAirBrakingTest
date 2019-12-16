@@ -32,9 +32,10 @@ public class WindTestApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
+        //为了后面逻辑处理进行Log记录，所以Log的初始化必须放在最前面
         initXlogEnv();
         initDatabase();
-        instance = this;
         //程序启动即打开433模块
         RF433PowerControl.powerOn();
     }
@@ -68,8 +69,8 @@ public class WindTestApplication extends Application {
      */
     private void initDatabase() {
         try {
-            copyDatabaseFile();
-            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, DB_FILE_NAME);
+            //copyDatabaseFile();
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(SqliteDatabaseContext.getInstance(), DB_FILE_NAME);
             SQLiteDatabase db = helper.getWritableDatabase();
             DaoMaster daoMaster = new DaoMaster(db);
             daoSession = daoMaster.newSession();
