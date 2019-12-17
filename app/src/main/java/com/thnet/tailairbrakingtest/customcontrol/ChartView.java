@@ -24,7 +24,7 @@ public class ChartView extends View {
     private final static String[] Y_SCALE_TEXT = {"700", "600", "500", "400", "300", "200", "100"};
     private final static int[] Y_SCALE_VALUES = {700, 600, 500, 400, 300, 200, 100};
     private final static int DRAW_LINE_WIDTH_AXIS = 2;
-    private final static int DRAW_LINE_WIDTH_CHART = 1;
+    private final static int DRAW_LINE_WIDTH_CHART = 3;
     /**
      * Y坐标的数据最大值
      */
