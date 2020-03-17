@@ -14,7 +14,7 @@ android {
             cmake {
                 cppFlags ""
                 //生成多个版本的so文件
-                abiFilters "armeabi-v7a"
+                abiFilters "armeabi-v7a","x86_64","x86"
             }
         }
     }
@@ -22,12 +22,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "boolean" , "USE_LOCAL_TEST_DATA" , "false"
-            buildConfigField "boolean" , "CONTROL_RF433_POWER_OFF" , "false"
+            buildConfigField "boolean", "USE_LOCAL_TEST_DATA", "false"
+            buildConfigField "boolean", "CONTROL_RF433_POWER_OFF", "false"
         }
         debug {
-            buildConfigField "boolean" , "USE_LOCAL_TEST_DATA" , "true"
-            buildConfigField "boolean" , "CONTROL_RF433_POWER_OFF" , "false"
+            buildConfigField "boolean", "USE_LOCAL_TEST_DATA", "true"
+            buildConfigField "boolean", "CONTROL_RF433_POWER_OFF", "false"
         }
     }
     externalNativeBuild {
@@ -40,20 +40,22 @@ android {
             jni.srcDirs = ['src/main/jni', 'src/main/cpp/']
         }
     }
-    splits{
-        abi{
+    splits {
+        abi {
             enable true
             reset()
-            include 'armeabi-v7a'
+            include 'armeabi-v7a','x86_64','x86'
             universalApk false
         }
     }
+    ndkVersion = '21.0.6113669'
     android.applicationVariants.all {
-        variant->variant.outputs.all{
-            output->
-                def abiName = output.getFilter(com.android.build.OutputFile.ABI)
-                output.outputFileName = "lwsf_V${variant.versionName}_${abiName}_${variant.buildType.name}.APK"
-        }
+        variant ->
+            variant.outputs.all {
+                output ->
+                    def abiName = output.getFilter(com.android.build.OutputFile.ABI)
+                    output.outputFileName = "lwsf_V${variant.versionName}_${abiName}_${variant.buildType.name}.APK"
+            }
     }
 }
 

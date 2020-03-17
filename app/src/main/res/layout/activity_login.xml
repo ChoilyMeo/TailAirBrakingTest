@@ -108,19 +108,37 @@
                 android:background="#EAEAEA"
                 android:layout_marginBottom="@dimen/space_10"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_changePassword"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="修改密码"
-            android:textColor="@color/color_black"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:textSize="@dimen/text_size_14"
-            android:visibility="visible"
-            android:layout_gravity="right"
-            android:paddingLeft="@dimen/space_10"
-            android:paddingRight="@dimen/space_5"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right">
+            <TextView
+                android:id="@+id/tv_addUser"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="添加用户"
+                android:textColor="@color/color_black"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_14"
+                android:visibility="visible"
+                android:layout_gravity="left"
+                android:paddingLeft="@dimen/space_10"
+                android:paddingRight="@dimen/space_5"/>
+
+            <TextView
+                android:id="@+id/tv_changePassword"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:paddingLeft="@dimen/space_10"
+                android:paddingRight="@dimen/space_5"
+                android:text="修改密码"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/text_size_14"
+                android:visibility="visible" />
+        </LinearLayout>
         <Button
             android:id="@+id/login_btn"
             android:layout_width="match_parent"

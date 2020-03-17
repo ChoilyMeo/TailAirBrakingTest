@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.login_btn).setOnClickListener(this);
         findViewById(R.id.tv_changePassword).setOnClickListener(this);
         findViewById(R.id.tv_test_serial_port).setOnClickListener(this);
+        findViewById(R.id.tv_addUser).setOnClickListener(this);
         tvUserName = findViewById(R.id.tv_userName);
         tvUserName.setOnClickListener(this);
         //默认显示用户列表中第一个用户作为登陆用户
@@ -77,8 +78,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this, "请选择用户。", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Intent intentC = new Intent(LoginActivity.this, ChangePasswordActivity.class);
-                    startActivity(intentC);
+                    ChangePasswordActivity.startIntent(this, TestOperator.getCurrentUser().getUserID());
+                    //Intent intentC = new Intent(LoginActivity.this, ChangePasswordActivity.class);
+                    //startActivity(intentC);
                 }
                 break;
             case R.id.tv_userName:
@@ -91,6 +93,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.tv_test_serial_port:
                 Intent intentTestSerialPort = new Intent(this, SerialPortTestActivity.class);
                 startActivity(intentTestSerialPort);
+                break;
+            case R.id.tv_addUser:
+                Intent intentUserEdit = new Intent(this, UserEditActivity.class);
+                startActivity(intentUserEdit);
                 break;
             default:
                 break;
