@@ -26,7 +26,7 @@ public class TestOperator {
     }
 
     public static boolean checkUserPassword(UserInfo userInfo, String pwd){
-        if (null != userInfo && null != userInfo.getUserPwd() && userInfo.getUserPwd().endsWith(pwd)){
+        if (null != userInfo && null != userInfo.getUserPwd() && userInfo.getUserPwd().equals(pwd)){
             return true;
         }
         return false;
