@@ -49,6 +49,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
         etConfirmPassword = (EditText) findViewById(R.id.et_confirm_password);
         findViewById(R.id.back_tv).setOnClickListener(this);
         findViewById(R.id.btn_modify).setOnClickListener(this);
+        findViewById(R.id.btn_delete).setOnClickListener(this);
         if (null != currentUser){
             etUserName.setText(currentUser.getUserName());
         }
@@ -91,6 +92,27 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
                     return;
                 }
                 break;
+            case R.id.btn_delete:
+                try {
+                    if (null == currentUser){
+                        Toast.makeText(this, "获取用户信息错误。", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else if (null != currentUser && !StringUtil.isNullOrEmpty(currentUser.getUserPwd())) {
+                        if (!currentUser.getUserPwd().equals(etOldPassword.getText().toString())){
+                            Toast.makeText(this, "原密码输入不正确。", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    final DaoSession daoSession = WindTestApplication.getWindTestInstance().getDaoSession();
+                    daoSession.getUserInfoDao().delete(currentUser);
+                    Toast.makeText(this, "密码修改成功。", Toast.LENGTH_SHORT).show();
+                    finish();
+                } catch (Exception ex) {
+                    Toast.makeText(this, "密码修改异常。", Toast.LENGTH_SHORT).show();
+                    XLog.e("密码修改异常：" + ex.getMessage());
+                    return;
+                }
+                break;
             case R.id.back_tv:
                 finish();
                 break;
@@ -103,5 +125,11 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
         Intent intent = new Intent(context,ChangePasswordActivity.class);
         intent.putExtra(PARAM_USER_ID,userId);
         context.startActivity(intent);
+    }
+
+    public static void startIntentForResult(Activity context, String userId, int requestCode){
+        Intent intent = new Intent(context,ChangePasswordActivity.class);
+        intent.putExtra(PARAM_USER_ID,userId);
+        context.startActivityForResult(intent, requestCode);
     }
 }

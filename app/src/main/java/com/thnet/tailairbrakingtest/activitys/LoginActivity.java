@@ -25,6 +25,8 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final int REQUEST_CODE_CHANGE_PASSWORD = 1;
+    private static final int REQUEST_CODE_ADD_USER = 2;
     EditText et_password;
     private PopupWindow popupWindow;
     private TextView tvUserName;
@@ -50,6 +52,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             UserInfo userInfo = userInfoList.get(0);
             TestOperator.setCurrentUser(userInfo);
             tvUserName.setText(userInfo.getUserName());
+        } else {
+            TestOperator.setCurrentUser(null);
+            tvUserName.setText("");
         }
     }
 
@@ -78,9 +83,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this, "请选择用户。", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    ChangePasswordActivity.startIntent(this, TestOperator.getCurrentUser().getUserID());
-                    //Intent intentC = new Intent(LoginActivity.this, ChangePasswordActivity.class);
-                    //startActivity(intentC);
+                    ChangePasswordActivity.startIntentForResult(this, TestOperator.getCurrentUser().getUserID(), REQUEST_CODE_CHANGE_PASSWORD);
                 }
                 break;
             case R.id.tv_userName:
@@ -96,10 +99,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.tv_addUser:
                 Intent intentUserEdit = new Intent(this, UserEditActivity.class);
-                startActivity(intentUserEdit);
+                startActivityForResult(intentUserEdit, REQUEST_CODE_ADD_USER);
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (REQUEST_CODE_CHANGE_PASSWORD == requestCode || REQUEST_CODE_ADD_USER == requestCode) {
+            userInfoList = TestOperator.getAllUserInfo();
+            initView();
         }
     }
 
