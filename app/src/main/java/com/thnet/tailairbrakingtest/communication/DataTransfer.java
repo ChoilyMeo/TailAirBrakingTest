@@ -65,6 +65,10 @@ public class DataTransfer implements OnSerialPortDataListener, OnOpenSerialPortL
         tData.setSpecifiedPressureValue(specifyPressureValue);
         tData.setTestKind(testKindName.getTestKindName());
         CTestWindProtocel.createSendCmd(SysParamsAll.get_modalChanelNo(), SysParamsAll.get_deviceNo(), tData.getTrackNoInt());
+        if (testKindName.isTestLXChecked()){
+            tData.testLx.setParms(tData.getSpecifyPressureValueInt(), tData.getTrainCountInt());
+            tData.testLx.setStat(TestContent.TestState.tsNotBegin);
+        }
         if (testKindName.isTestADChecked()){
             tData.testAd.setParms(tData.getSpecifyPressureValueInt(), tData.getTrainCountInt());
             tData.testAd.setStat(TestContent.TestState.tsNotBegin);
@@ -72,6 +76,10 @@ public class DataTransfer implements OnSerialPortDataListener, OnOpenSerialPortL
         if (testKindName.isTestGDChecked()){
             tData.testGd.setParms(tData.getSpecifyPressureValueInt(), tData.getTrainCountInt());
             tData.testGd.setStat(TestContent.TestState.tsNotBegin);
+        }
+        if (testKindName.isTestBYChecked()){
+            tData.testBy.setParms(tData.getSpecifyPressureValueInt(), tData.getTrainCountInt());
+            tData.testBy.setStat(TestContent.TestState.tsNotBegin);
         }
         if (testKindName.isTestJLChecked()){
             tData.testJl.setParms(tData.getSpecifyPressureValueInt(), tData.getTrainCountInt());
@@ -116,6 +124,8 @@ public class DataTransfer implements OnSerialPortDataListener, OnOpenSerialPortL
                 currTest = tData.testGd;
             } else if (tData.testAd.getStat() == TestContent.TestState.tsNotBegin) {
                 currTest = tData.testAd;
+            } else if (tData.testBy.getStat() == TestContent.TestState.tsNotBegin) {
+                currTest = tData.testBy;
             } else if (tData.testJl.getStat() == TestContent.TestState.tsNotBegin) {
                 currTest = tData.testJl;
             } else {

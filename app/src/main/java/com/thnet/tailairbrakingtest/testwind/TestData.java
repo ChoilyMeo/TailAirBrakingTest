@@ -25,8 +25,10 @@ import java.util.concurrent.Callable;
 public class TestData {
     private static final String TAG = TestData.class.getSimpleName();
 
+    public Test_LX testLx;
     public Test_GD testGd;
     public Test_AD testAd;
+    public Test_BY testBy;
     public Test_JL testJl;
     public List<PressureValue> lstPressureValue = new ArrayList<PressureValue>();
     public List<TestContent> listTest = new ArrayList<TestContent>();
@@ -36,12 +38,16 @@ public class TestData {
     private SimpleDateFormat formatterTime = new SimpleDateFormat("HH:mm:ss");
 
     public TestData() {
+        testLx = new Test_LX();
         testGd = new Test_GD();
         testAd = new Test_AD();
+        testBy = new Test_BY();
         testJl = new Test_JL();
         listTest = new ArrayList<TestContent>(0);
+        listTest.add(testLx);
         listTest.add(testGd);
         listTest.add(testAd);
+        listTest.add(testBy);
         listTest.add(testJl);
         lstPressureValue = new ArrayList<PressureValue>(0);
         setTestDate(formatterDate.format(new Date()));

@@ -4,9 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.thnet.tailairbrakingtest.customapplication.WindTestApplication;
+import com.thnet.tailairbrakingtest.testwind.TestContent;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.Generated;
 
@@ -17,34 +19,45 @@ import java.util.List;
         createInDb = false
 )
 public class TestKind implements Parcelable {
-    static final String TEST_CHECKED_VALUE = "1";
+    public final static int MAX_TEST_KIND_COUNT = 10;
+    private static final String TEST_CHECKED_VALUE = "1";
+    private static final String TEST_NOT_CHECKED_VALUE = "0";
+    public static final String[] TEST_NAME_ALL = {TestContent.TEST_NAME_LX, TestContent.TEST_NAME_GD, TestContent.TEST_NAME_AD, TestContent.TEST_NAME_BY, TestContent.TEST_NAME_JL};
+
     @Id(autoincrement = true)
     @Property(nameInDb = "id")
     Long id;
     @Property(nameInDb = "TestName")
     String testKindName;
+    @Property(nameInDb = "Test_LX")
+    String testLX;
     @Property(nameInDb = "Test_AD")
     String testAD;
     @Property(nameInDb = "Test_GD")
     String testGD;
+    @Property(nameInDb = "Test_BY")
+    String testBY;
     @Property(nameInDb = "Test_JL")
     String testJL;
 
     protected TestKind(Parcel in){
         id = in.readLong();
         testKindName = in.readString();
+        testLX = in.readString();
         testAD = in.readString();
         testGD = in.readString();
+        testBY = in.readString();
         testJL = in.readString();
     }
 
-    @Generated(hash = 110329682)
-    public TestKind(Long id, String testKindName, String testAD, String testGD,
-                    String testJL) {
+    @Generated(hash = 1717774386)
+    public TestKind(Long id, String testKindName, String testLX, String testAD, String testGD, String testBY, String testJL) {
         this.id = id;
         this.testKindName = testKindName;
+        this.testLX = testLX;
         this.testAD = testAD;
         this.testGD = testGD;
+        this.testBY = testBY;
         this.testJL = testJL;
     }
 
@@ -62,16 +75,83 @@ public class TestKind implements Parcelable {
         }
     }
 
+    public boolean getTestCheckedByName(String testName){
+        switch (testName){
+            case TestContent.TEST_NAME_LX:
+                return TEST_CHECKED_VALUE.equals(testLX);
+            case TestContent.TEST_NAME_GD:
+                return TEST_CHECKED_VALUE.equals(testGD);
+            case TestContent.TEST_NAME_AD:
+                return TEST_CHECKED_VALUE.equals(testAD);
+            case TestContent.TEST_NAME_BY:
+                return TEST_CHECKED_VALUE.equals(testBY);
+            case TestContent.TEST_NAME_JL:
+                return TEST_CHECKED_VALUE.equals(testJL);
+            default:
+                return false;
+        }
+    }
+
+    public void setTestCheckByName(String testName, boolean isCheck){
+        switch (testName){
+            case TestContent.TEST_NAME_LX:
+                testLX = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
+                break;
+            case TestContent.TEST_NAME_GD:
+                testGD = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
+                break;
+            case TestContent.TEST_NAME_AD:
+                testAD = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
+                break;
+            case TestContent.TEST_NAME_BY:
+                testBY = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
+                break;
+            case TestContent.TEST_NAME_JL:
+                testJL = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public boolean isTestLXChecked(){
+        return  TEST_CHECKED_VALUE.equals(testLX);
+    }
+
+    public void setTextLXChecked(boolean isCheck){
+        testLX = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
+    }
+
     public boolean isTestADChecked(){
         return  TEST_CHECKED_VALUE.equals(testAD);
+    }
+
+    public void setTextADChecked(boolean isCheck){
+        testAD = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
     }
 
     public boolean isTestGDChecked(){
         return  TEST_CHECKED_VALUE.equals(testGD);
     }
 
+    public void setTextGDChecked(boolean isCheck){
+        testGD = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
+    }
+
+    public boolean isTestBYChecked(){
+        return  TEST_CHECKED_VALUE.equals(testBY);
+    }
+
+    public void setTextBYChecked(boolean isCheck){
+        testBY = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
+    }
+
     public boolean isTestJLChecked(){
         return  TEST_CHECKED_VALUE.equals(testJL);
+    }
+
+    public void setTextJLChecked(boolean isCheck){
+        testJL = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
     }
 
     public Long getId() {
@@ -114,6 +194,23 @@ public class TestKind implements Parcelable {
         this.testJL = testJL;
     }
 
+
+    public String getTestLX() {
+        return this.testLX;
+    }
+
+    public void setTestLX(String testLX) {
+        this.testLX = testLX;
+    }
+
+    public String getTestBY() {
+        return this.testBY;
+    }
+
+    public void setTestBY(String testBY) {
+        this.testBY = testBY;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -123,8 +220,10 @@ public class TestKind implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(testKindName);
+        dest.writeString(testLX);
         dest.writeString(testAD);
         dest.writeString(testGD);
+        dest.writeString(testBY);
         dest.writeString(testJL);
     }
 

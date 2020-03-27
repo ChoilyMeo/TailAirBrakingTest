@@ -7,8 +7,8 @@ android {
         applicationId "com.thnet.tailairbrakingtest"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 8
-        versionName "1.0.1.8"
+        versionCode 21
+        versionName "1.0.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -74,7 +74,7 @@ dependencies {
 }
 
 greendao {
-    schemaVersion 1000
+    schemaVersion 1010
     daoPackage 'com.thnet.tailairbrakingtest.dao'
     targetGenDir 'src/main/java'
 }

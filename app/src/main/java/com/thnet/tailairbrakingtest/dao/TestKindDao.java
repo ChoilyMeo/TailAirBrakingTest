@@ -24,9 +24,11 @@ public class TestKindDao extends AbstractDao<TestKind, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "id");
         public final static Property TestKindName = new Property(1, String.class, "testKindName", false, "TestName");
-        public final static Property TestAD = new Property(2, String.class, "testAD", false, "Test_AD");
-        public final static Property TestGD = new Property(3, String.class, "testGD", false, "Test_GD");
-        public final static Property TestJL = new Property(4, String.class, "testJL", false, "Test_JL");
+        public final static Property TestLX = new Property(2, String.class, "testLX", false, "Test_LX");
+        public final static Property TestAD = new Property(3, String.class, "testAD", false, "Test_AD");
+        public final static Property TestGD = new Property(4, String.class, "testGD", false, "Test_GD");
+        public final static Property TestBY = new Property(5, String.class, "testBY", false, "Test_BY");
+        public final static Property TestJL = new Property(6, String.class, "testJL", false, "Test_JL");
     }
 
 
@@ -52,19 +54,29 @@ public class TestKindDao extends AbstractDao<TestKind, Long> {
             stmt.bindString(2, testKindName);
         }
  
+        String testLX = entity.getTestLX();
+        if (testLX != null) {
+            stmt.bindString(3, testLX);
+        }
+ 
         String testAD = entity.getTestAD();
         if (testAD != null) {
-            stmt.bindString(3, testAD);
+            stmt.bindString(4, testAD);
         }
  
         String testGD = entity.getTestGD();
         if (testGD != null) {
-            stmt.bindString(4, testGD);
+            stmt.bindString(5, testGD);
+        }
+ 
+        String testBY = entity.getTestBY();
+        if (testBY != null) {
+            stmt.bindString(6, testBY);
         }
  
         String testJL = entity.getTestJL();
         if (testJL != null) {
-            stmt.bindString(5, testJL);
+            stmt.bindString(7, testJL);
         }
     }
 
@@ -82,19 +94,29 @@ public class TestKindDao extends AbstractDao<TestKind, Long> {
             stmt.bindString(2, testKindName);
         }
  
+        String testLX = entity.getTestLX();
+        if (testLX != null) {
+            stmt.bindString(3, testLX);
+        }
+ 
         String testAD = entity.getTestAD();
         if (testAD != null) {
-            stmt.bindString(3, testAD);
+            stmt.bindString(4, testAD);
         }
  
         String testGD = entity.getTestGD();
         if (testGD != null) {
-            stmt.bindString(4, testGD);
+            stmt.bindString(5, testGD);
+        }
+ 
+        String testBY = entity.getTestBY();
+        if (testBY != null) {
+            stmt.bindString(6, testBY);
         }
  
         String testJL = entity.getTestJL();
         if (testJL != null) {
-            stmt.bindString(5, testJL);
+            stmt.bindString(7, testJL);
         }
     }
 
@@ -108,9 +130,11 @@ public class TestKindDao extends AbstractDao<TestKind, Long> {
         TestKind entity = new TestKind( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // testKindName
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // testAD
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // testGD
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // testJL
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // testLX
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // testAD
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // testGD
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // testBY
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // testJL
         );
         return entity;
     }
@@ -119,9 +143,11 @@ public class TestKindDao extends AbstractDao<TestKind, Long> {
     public void readEntity(Cursor cursor, TestKind entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTestKindName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setTestAD(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setTestGD(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setTestJL(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setTestLX(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setTestAD(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setTestGD(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setTestBY(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setTestJL(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
      }
     
     @Override

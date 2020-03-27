@@ -182,7 +182,7 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/space_10">
                 <Button
-                    android:id="@+id/manual_start_btn"
+                    android:id="@+id/btn_TestSetting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/color_white"

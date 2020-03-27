@@ -1,9 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_white"
     tools:context=".activitys.TestSettingActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_50"
+        android:background="@drawable/bg_gradient_color">
+        <TextView
+            android:id="@+id/back_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/space_40"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/back"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/space_15"
+            android:paddingRight="@dimen/space_25"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_18"
+            android:text="试验类型设置"
+            android:textColor="@color/color_white"
+            android:gravity="center"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_10"
+        android:layout_marginBottom="@dimen/space_10">
 
-</android.support.constraint.ConstraintLayout>
+        <ListView
+            android:id="@+id/lv_TestKind"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:scrollbars="none"
+            android:listSelector="@android:color/transparent"/>
+
+        <ListView
+            android:id="@+id/lv_TestName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:scrollbars="none"
+            android:listSelector="@android:color/transparent"/>
+    </LinearLayout>
+
+</LinearLayout>

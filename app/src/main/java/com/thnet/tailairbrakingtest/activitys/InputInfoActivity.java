@@ -2,6 +2,7 @@ package com.thnet.tailairbrakingtest.activitys;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,9 @@ import java.util.List;
 public class InputInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = InputInfoActivity.class.getSimpleName();
+    private static final String PREFERENCE_NAME_TEST_KIND = "TestKind";
+    private static final String PREFERENCE_NAME_RATED_PRESSURE = "RatedPressure";
+    private SharedPreferences preferences;
     EditText etRatedPressure;
     EditText etTrack;
     EditText etTrainCount;
@@ -37,23 +41,39 @@ public class InputInfoActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_info);
         testKindList = WindTestApplication.getWindTestInstance().getDaoSession().loadAll(TestKind.class);
+        preferences = getPreferences(MODE_PRIVATE);
         initView();
     }
 
     private void initView(){
         findViewById(R.id.back_tv).setOnClickListener(this);
         findViewById(R.id.start_btn).setOnClickListener(this);
-        findViewById(R.id.manual_start_btn).setOnClickListener(this);
+        findViewById(R.id.btn_TestSetting).setOnClickListener(this);
         etRatedPressure = findViewById(R.id.et_ratedPressure);
+        etRatedPressure.setText(preferences.getString(PREFERENCE_NAME_RATED_PRESSURE, "600"));
         etTrack = findViewById(R.id.et_track);
         etTrainCount = findViewById(R.id.et_trainCount);
         etTrainNo = findViewById(R.id.et_trainNo);
         tvTestKind = findViewById(R.id.tv_testKind);
         tvTestKind.setOnClickListener(this);
-        //默认显示试风种类列表中第一个
+        //默认展示上次选择的，没有的话显示试风种类列表中第一个
+        selectedTestKind = null;
+        tvTestKind.setText("");
         if (null != testKindList && testKindList.size() > 0){
-            selectedTestKind = testKindList.get(0);
-            tvTestKind.setText(selectedTestKind.getTestKindName());
+            String prevSelectedTestKind = preferences.getString(PREFERENCE_NAME_TEST_KIND, "");
+            for (int i = 0; i < testKindList.size(); i++){
+                if (prevSelectedTestKind.equals(testKindList.get(i).getTestKindName())) {
+                    selectedTestKind = testKindList.get(i);
+                    tvTestKind.setText(selectedTestKind.getTestKindName());
+                }
+            }
+            if (null == selectedTestKind) {
+                selectedTestKind = testKindList.get(0);
+                tvTestKind.setText(selectedTestKind.getTestKindName());
+            }
+        } else {
+            selectedTestKind = null;
+            tvTestKind.setText("");
         }
     }
 
@@ -61,7 +81,8 @@ public class InputInfoActivity extends AppCompatActivity implements View.OnClick
         View view = View.inflate(this,R.layout.pop_layout,null);
         popupWindow = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setOutsideTouchable(true);
-        //在这儿显示用户名列表，设置用户名
+        //在这儿显示试验类型名称
+        testKindList = WindTestApplication.getWindTestInstance().getDaoSession().loadAll(TestKind.class);
         final ListView listView = view.findViewById(R.id.mListView);
         if (null != testKindList) {
             listView.setAdapter(new TestKindAdapter(this, testKindList));
@@ -87,6 +108,10 @@ public class InputInfoActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.start_btn:
                 if (inputValidate(errMsg)) {
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(PREFERENCE_NAME_TEST_KIND, tvTestKind.getText().toString());
+                    editor.putString(PREFERENCE_NAME_RATED_PRESSURE, etRatedPressure.getText().toString());
+                    editor.apply();
                     TestActivity.startIntent(this, TestActivity.VIEW_TYPE_TEST, etTrack.getText().toString(), etTrainNo.getText().toString(), etTrainCount.getText().toString(), etRatedPressure.getText().toString(), "", selectedTestKind);
                     finish();
                 }
@@ -94,7 +119,9 @@ public class InputInfoActivity extends AppCompatActivity implements View.OnClick
                     Toast.makeText(this, errMsg.toString(), Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.manual_start_btn:
+            case R.id.btn_TestSetting:
+                Intent intentTestSetting = new Intent(this, TestSettingActivity.class);
+                startActivity(intentTestSetting);
                 break;
             case R.id.tv_testKind:
                 if (popupWindow != null && popupWindow.isShowing()) {

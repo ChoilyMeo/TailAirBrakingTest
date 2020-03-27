@@ -288,6 +288,8 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             new AlertDialog.Builder(this).setTitle("提示").setMessage("压力低于充风下限。").setPositiveButton("确定", null).show();
         } else {
             tvTestLeak.setEnabled(false);
+            dt.tData.testLx.reset();
+            dt.currTest = dt.tData.testLx;
         }
     }
 

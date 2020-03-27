@@ -25,13 +25,15 @@ import java.util.List;
  */
 public class TestContent {
     public static final String TEST_NAME_AD = "安定试验";
-    static final String TEST_NAME_GD = "感度保压";
+    public static final String TEST_NAME_GD = "感度保压";
     public static final String TEST_NAME_JL = "简略试验";
     public static final String TEST_NAME_LX = "漏泄试验";
+    public static final String TEST_NAME_BY = "持续保压";
     static final String SHORT_TEST_NAME_AD = "安定";
     static final String SHORT_TEST_NAME_GD = "感度";
     static final String SHORT_TEST_NAME_JL = "简略";
     static final String SHORT_TEST_NAME_LX = "漏泄";
+    static final String SHORT_TEST_NAME_BY = "保压";
     public static final String TEST_STATE_COMPLETED = "完成";
     public static final String TEST_STATE_NOT_COMPLETED = "已作业";
     //试验区别变量，不同的试验在构造函数中进行不同的赋值

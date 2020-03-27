@@ -1,5 +1,7 @@
 package com.thnet.tailairbrakingtest.testwind;
 
+import android.graphics.Color;
+
 import com.thnet.tailairbrakingtest.dao.PressureValue;
 import com.thnet.tailairbrakingtest.utility.TipSoundPlayer;
 
@@ -17,6 +19,7 @@ public class Test_LX extends TestContent {
         standardKeepTime = SysParamsAll.get_lxStandardTime();
         standardDrop = 0;
         standardLeak = SysParamsAll.get_lxStandardLeak();
+        drawColor = Color.RED;
     }
 
     @Override
