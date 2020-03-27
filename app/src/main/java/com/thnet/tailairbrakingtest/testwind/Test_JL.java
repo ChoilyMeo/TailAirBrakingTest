@@ -1,6 +1,7 @@
 package com.thnet.tailairbrakingtest.testwind;
 
 import android.graphics.Color;
+import android.view.View;
 
 import com.thnet.tailairbrakingtest.utility.TipSoundPlayer;
 
@@ -17,5 +18,9 @@ public class Test_JL extends TestContent {
         standardDrop = SysParamsAll.get_jlStandardDrop();
         standardLeak = 10000;
         drawColor = Color.YELLOW;
+        viewStatMainPressure = View.VISIBLE;
+        viewStatKeepTime = View.VISIBLE;
+        viewStatDropValue = View.VISIBLE;
+        viewStatLeakValue = View.GONE;
     }
 }

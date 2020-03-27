@@ -1,6 +1,7 @@
 package com.thnet.tailairbrakingtest.testwind;
 
 import android.graphics.Color;
+import android.view.View;
 
 import com.thnet.tailairbrakingtest.utility.TipSoundPlayer;
 
@@ -16,6 +17,10 @@ public class Test_BY extends TestContent {
         standardKeepTime = SysParamsAll.get_byStandardTime();
         standardLeak = 10000;
         drawColor = Color.LTGRAY;
+        viewStatMainPressure = View.VISIBLE;
+        viewStatKeepTime = View.VISIBLE;
+        viewStatDropValue = View.VISIBLE;
+        viewStatLeakValue = View.GONE;
     }
 
     @Override

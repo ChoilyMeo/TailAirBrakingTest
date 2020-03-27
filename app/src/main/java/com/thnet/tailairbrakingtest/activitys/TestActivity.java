@@ -61,7 +61,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     public @interface ViewTypes {}
     private TextView tvTestName, tvTrackNo, tvTrainNo, tvTrainCount, tvTestLeak, tvSave;
     private EditText etMainPressureValue, etDropValue, etKeepTime, etLeakValue;
-    private LinearLayout llKeepTime, llLeakValue;
+    private LinearLayout llKeepTime, llLeakValue, llDropValue;
     private ChartView chartView;
     private String trackNo, trainNo, trainCount, specifyPressure, testId;
     private TestKind testKind;
@@ -122,6 +122,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         etLeakValue = findViewById(R.id.et_leakValue);
         llKeepTime = findViewById(R.id.ll_keepTime);
         llLeakValue = findViewById(R.id.ll_leakValue);
+        llDropValue = findViewById(R.id.ll_dropValue);
         tvTestLeak = findViewById(R.id.tv_testLeak);
         tvSave = findViewById(R.id.tv_save);//保存按钮
         TextView tvExit = findViewById(R.id.tv_exit);//退出按钮
@@ -138,27 +139,19 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 tvTestLeak.setEnabled(true);
             }
             if (null != dt.currTest && (dt.currTest.getStat() == TestContent.TestState.tsDoing || dt.currTest.getStat() == TestContent.TestState.tsStoped)) {
-                String testName, pressureValue, keepTime, leakValue, dropValue;
-                testName = dt.currTest.getTestName();
+                String pressureValue, keepTime, leakValue, dropValue;
                 pressureValue = String.valueOf(dt.currTest.getTestMainPressureValue());
                 keepTime = String.valueOf(dt.currTest.getTestKeepTime());
                 leakValue = String.valueOf(dt.currTest.getTestLeakValue());
                 dropValue = String.valueOf(dt.currTest.getTestDropValue());
-                tvTestName.setText(testName);
+                tvTestName.setText(dt.currTest.getTestName());
                 etMainPressureValue.setText(pressureValue);
                 etDropValue.setText(dropValue);
                 etKeepTime.setText(keepTime);
                 etLeakValue.setText(leakValue);
-                if (TestContent.TEST_NAME_AD.equals(testName)) {
-                    llKeepTime.setVisibility(View.GONE);
-                    llLeakValue.setVisibility(View.GONE);
-                } else if (TestContent.TEST_NAME_JL.equals(testName)) {
-                    llKeepTime.setVisibility(View.VISIBLE);
-                    llLeakValue.setVisibility(View.GONE);
-                } else {
-                    llKeepTime.setVisibility(View.VISIBLE);
-                    llLeakValue.setVisibility(View.VISIBLE);
-                }
+                llDropValue.setVisibility(dt.currTest.getViewStatDropValue());
+                llKeepTime.setVisibility(dt.currTest.getViewStatKeepTime());
+                llLeakValue.setVisibility(dt.currTest.getViewStatLeakValue());
             }
         } catch (Exception ex) {
             XLog.e("显示试验状态异常：" + ex);

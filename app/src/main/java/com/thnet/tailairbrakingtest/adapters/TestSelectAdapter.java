@@ -66,7 +66,8 @@ public class TestSelectAdapter extends BaseAdapter implements CompoundButton.OnC
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){
             case R.id.cb_TestName:
-                if (null != itemButtonListener){
+                //界面点击CheckBox才执行OnChange事件
+                if (buttonView.isPressed() && null != itemButtonListener){
                     itemButtonListener.itemCheckBoxOnCheckedChanged(buttonView, isChecked);
                 }
                 break;

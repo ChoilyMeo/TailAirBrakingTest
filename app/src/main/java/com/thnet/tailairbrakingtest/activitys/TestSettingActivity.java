@@ -10,12 +10,14 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elvishew.xlog.XLog;
 import com.thnet.tailairbrakingtest.R;
 import com.thnet.tailairbrakingtest.adapters.InnerItemOnclickListener;
 import com.thnet.tailairbrakingtest.adapters.TestKindAdapter;
+import com.thnet.tailairbrakingtest.adapters.TestKindExAdapter;
 import com.thnet.tailairbrakingtest.adapters.TestSelectAdapter;
 import com.thnet.tailairbrakingtest.customapplication.WindTestApplication;
 import com.thnet.tailairbrakingtest.dao.TestKind;
@@ -29,8 +31,9 @@ public class TestSettingActivity extends AppCompatActivity implements View.OnCli
     private ListView lvTestKind;
     private ListView lvTestName;
     private TestSelectAdapter testSelectAdapter;
-    private TestKindAdapter testKindAdapter;
+    private TestKindExAdapter testKindAdapter;
     private TestKind selectedTestKind;
+    private TextView tvListHead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +60,14 @@ public class TestSettingActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         });
-        testKindAdapter = new TestKindAdapter(this, testKindList);
+        testKindAdapter = new TestKindExAdapter(this, testKindList);
+        testKindAdapter.setItemButtonOnClickListener(this);
         lvTestKind.setAdapter(testKindAdapter);
         lvTestName = findViewById(R.id.lv_TestName);
+        View testSelectHeaderView  = LayoutInflater.from(this).inflate(R.layout.list_header, null);
+        tvListHead = testSelectHeaderView.findViewById(R.id.tv_title);
+        tvListHead.setText("");
+        lvTestName.addHeaderView(testSelectHeaderView, null, false);
         testSelectAdapter = new TestSelectAdapter(this, testSelectDataList);
         testSelectAdapter.setItemButtonOnClickListener(this);
         lvTestName.setAdapter(testSelectAdapter);
@@ -71,11 +79,12 @@ public class TestSettingActivity extends AppCompatActivity implements View.OnCli
         } else {
             testSelectDataList = new ArrayList<>(0);
         }
-        for (String tName : TestKind.TEST_NAME_ALL){
+        for (String tName : TestKind.getTestNameAll()){
             TestSelectData tsd = new TestSelectData(false, tName);
             tsd.setChecked(testKind.getTestCheckedByName(tsd.getTestName()));
             testSelectDataList.add(tsd);
         }
+        tvListHead.setText(testKind.getTestKindName());
     }
 
     private void listReload(){
@@ -85,6 +94,7 @@ public class TestSettingActivity extends AppCompatActivity implements View.OnCli
         selectedTestKind = null;
         testSelectDataList.clear();
         testSelectAdapter.notifyDataSetChanged();
+        tvListHead.setText("");
     }
 
     private void testKindAdd(String testName){
@@ -115,9 +125,23 @@ public class TestSettingActivity extends AppCompatActivity implements View.OnCli
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     //按下确定键后的事件
-                                    testKindAdd(editText.getText().toString());
-                                    listReload();
-                                    Toast.makeText(getApplicationContext(), "试验类型" + editText.getText().toString() + "添加成功，请选择需要的试验。", Toast.LENGTH_LONG).show();
+                                    String addName = editText.getText().toString();
+                                    boolean isNameExist = false;
+                                    if (null != testKindList && testKindList.size() > 0){
+                                        for (TestKind testKind : testKindList){
+                                            if (addName.equals(testKind.getTestKindName())){
+                                                isNameExist = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (isNameExist){
+                                        Toast.makeText(getApplicationContext(), "试验类型名称" + editText.getText().toString() + "已存在。", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        testKindAdd(addName);
+                                        listReload();
+                                        Toast.makeText(getApplicationContext(), "试验类型" + editText.getText().toString() + "添加成功，请选择需要的试验。", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }).setNegativeButton("取消",null).show();
                 } catch (Exception ex) {
@@ -135,6 +159,29 @@ public class TestSettingActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void itemButtOnClick(View v) {
+        switch (v.getId()){
+            case R.id.image_delete:
+                try{
+                    int position = (Integer) v.getTag();
+                    if (null != testKindList && testKindList.size() > position){
+                        TestKind testKind = testKindList.get(position);
+                        if (TestKind.TEST_KIND_NAME_ALL.equals(testKind.getTestKindName()) || TestKind.TEST_KIND_NAME_SAMPLE.equals(testKind.getTestKindName())){
+                            Toast.makeText(getApplicationContext(), testKind.getTestKindName() + "不允许删除！", Toast.LENGTH_LONG).show();
+                        } else {
+                            WindTestApplication.getWindTestInstance().getDaoSession().getTestKindDao().delete(testKind);
+                            listReload();
+                            Toast.makeText(getApplicationContext(), "试验类型删除成功！", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "试验类型删除失败！", Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "试验类型删除异常！", Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

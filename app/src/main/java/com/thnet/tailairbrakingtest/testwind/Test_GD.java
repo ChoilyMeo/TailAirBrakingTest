@@ -1,6 +1,7 @@
 package com.thnet.tailairbrakingtest.testwind;
 
 import android.graphics.Color;
+import android.view.View;
 
 import com.thnet.tailairbrakingtest.utility.TipSoundPlayer;
 
@@ -16,6 +17,15 @@ public class Test_GD extends TestContent {
         standardKeepTime = SysParamsAll.get_gdStandardTime();
         standardLeak = SysParamsAll.get_gdStandardLeak();
         drawColor = Color.BLUE;
+        viewStatMainPressure = View.VISIBLE;
+        viewStatKeepTime = View.VISIBLE;
+        viewStatDropValue = View.VISIBLE;
+        //设置是客车的话，不显示漏泄量
+        if (SysParamsAll.PARAM_KEHUOCHE_KECHE.equals(SysParamsAll.getKeHuoChe())){
+            viewStatLeakValue = View.GONE;
+        } else {
+            viewStatLeakValue = View.VISIBLE;
+        }
     }
 
     @Override

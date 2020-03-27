@@ -9,6 +9,10 @@ import java.util.List;
 public class SysParamsAll {
     public static final int SpecifiedPressure500 = 500;
     public static final int SpecifiedPressure600 = 600;
+    public static final int PARAM_MAX_STANDARD_LEAKVALUE = 10000;
+    public static final int PARAM_MIN_STANDARD_KEEPTIME = 0;
+    public static final String PARAM_KEHUOCHE_KECHE = "0";
+    public static final String PARAM_KEHUOCHE_HUOCHE = "1";
     //各项参数设置
     private static String _testOperator;
     private static String _testOperatorName;
@@ -25,6 +29,8 @@ public class SysParamsAll {
     private static int _autoRepeat = 0;
     private static int _autoSave = 0;
     private static int _judgeEndTimes = 15;
+    //客车货车区分标志：0客车，1货车
+    private static String keHuoChe = "1";
 
     private static int _TempDateLen = 100;
     private static int _EstiDataLen = 10;
@@ -67,165 +73,169 @@ public class SysParamsAll {
         DaoSession daoSession = WindTestApplication.getWindTestInstance().getDaoSession();
         List<SysParms> parmsList = daoSession.loadAll(SysParms.class);
         for (SysParms parms : parmsList){
-            if (parms.getParamID().endsWith("PortName"))
+            if (parms.getParamID().equals("PortName"))
             {
                 _portName = parms.getParamValue();
             }
-            if (parms.getParamID().endsWith("BaudRate"))
+            if (parms.getParamID().equals("BaudRate"))
             {
                 _baudRate = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("ChanelNo"))
+            if (parms.getParamID().equals("ChanelNo"))
             {
                 _modalChanelNo = (byte)Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("DeviceNo"))
+            if (parms.getParamID().equals("DeviceNo"))
             {
                 _deviceNo = (byte)Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("SendTimer"))
+            if (parms.getParamID().equals("SendTimer"))
             {
                 _sendCommandTimer = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("TempLen"))
+            if (parms.getParamID().equals("TempLen"))
             {
                 _TempDateLen = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("EstiLen"))
+            if (parms.getParamID().equals("EstiLen"))
             {
                 _EstiDataLen = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("FluxRange"))
+            if (parms.getParamID().equals("FluxRange"))
             {
                 _fluxRange = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("ReliefRange"))
+            if (parms.getParamID().equals("ReliefRange"))
             {
                 _reliefRange = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("GDAnalyseMin"))
+            if (parms.getParamID().equals("GDAnalyseMin"))
             {
                 _gdAnalyseMin = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("GDAnalyseMax"))
+            if (parms.getParamID().equals("GDAnalyseMax"))
             {
                 _gdAnalyseMax = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("ADAnalyseMin"))
+            if (parms.getParamID().equals("ADAnalyseMin"))
             {
                 _adAnalyseMin = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("ADAnalyseMax"))
+            if (parms.getParamID().equals("ADAnalyseMax"))
             {
                 _adAnalyseMax = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("BYAnalyseMin"))
+            if (parms.getParamID().equals("BYAnalyseMin"))
             {
                 _byAnalyseMin = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("BYAnalyseMax"))
+            if (parms.getParamID().equals("BYAnalyseMax"))
             {
                 _byAnalyseMax = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("JLAnalyseMin"))
+            if (parms.getParamID().equals("JLAnalyseMin"))
             {
                 _jlAnalyseMin = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("JLAnalyseMax"))
+            if (parms.getParamID().equals("JLAnalyseMax"))
             {
                 _jlAnalyseMax = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("PValueMin500"))
+            if (parms.getParamID().equals("PValueMin500"))
             {
                 _pressureValueMin500 = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("PValueMin600"))
+            if (parms.getParamID().equals("PValueMin600"))
             {
                 _pressureValueMin600 = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("LXTime"))
+            if (parms.getParamID().equals("LXTime"))
             {
                 _lxStandardTime = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("LXLeak"))
+            if (parms.getParamID().equals("LXLeak"))
             {
                 _lxStandardLeak = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("GDDrop60d"))
+            if (parms.getParamID().equals("GDDrop60d"))
             {
                 _gdStandardDrop60d = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("GDDrop60u"))
+            if (parms.getParamID().equals("GDDrop60u"))
             {
                 _gdStandardDrop60u = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("GDTime"))
+            if (parms.getParamID().equals("GDTime"))
             {
                 _gdStandardTime = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("GDLeak"))
+            if (parms.getParamID().equals("GDLeak"))
             {
                 _gdStandardLeak = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("ADTime"))
+            if (parms.getParamID().equals("ADTime"))
             {
                 _adStandardTime = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("ADLeak"))
+            if (parms.getParamID().equals("ADLeak"))
             {
                 _adStandardLeak = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("ADDrop500"))
+            if (parms.getParamID().equals("ADDrop500"))
             {
                 _adStandardDrop500 = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("ADDrop600"))
+            if (parms.getParamID().equals("ADDrop600"))
             {
                 _adStandardDrop600 = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("BYTime"))
+            if (parms.getParamID().equals("BYTime"))
             {
                 _byStandardTime = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("BYDrop"))
+            if (parms.getParamID().equals("BYDrop"))
             {
                 _byStandardDrop = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("JLDrop"))
+            if (parms.getParamID().equals("JLDrop"))
             {
                 _jlStandardDrop = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("WCDingYa"))
+            if (parms.getParamID().equals("WCDingYa"))
             {
                 _wcDingYa = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("WCJianYa"))
+            if (parms.getParamID().equals("WCJianYa"))
             {
                 _wcJianYa = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("WCLouXie"))
+            if (parms.getParamID().equals("WCLouXie"))
             {
                 _wcLouXie = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("WCBaoYa"))
+            if (parms.getParamID().equals("WCBaoYa"))
             {
                 _wcBaoYa = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("PlaySound"))
+            if (parms.getParamID().equals("PlaySound"))
             {
                 _playSound = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("AutoRepeat"))
+            if (parms.getParamID().equals("AutoRepeat"))
             {
                 _autoRepeat = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("AutoSave"))
+            if (parms.getParamID().equals("AutoSave"))
             {
                 _autoSave = Integer.parseInt(parms.getParamValue());
             }
-            if (parms.getParamID().endsWith("JudgeEndTimes"))
+            if (parms.getParamID().equals("JudgeEndTimes"))
             {
                 _judgeEndTimes = Integer.parseInt(parms.getParamValue());
+            }
+            if (parms.getParamID().equals("KeHuoChe"))
+            {
+                keHuoChe = parms.getParamValue();
             }
         }
         return parmsList;
@@ -584,7 +594,12 @@ public class SysParamsAll {
     }
 
     public static int get_gdStandardLeak() {
-        return _gdStandardLeak;
+        //设置是客车的话，感度试验不进行漏泄量的判定，因此在获取漏泄量参数的时候，设置为最大值
+        if (PARAM_KEHUOCHE_KECHE.equals(getKeHuoChe())){
+            return PARAM_MAX_STANDARD_LEAKVALUE;
+        } else {
+            return _gdStandardLeak;
+        }
     }
 
     public static void set_gdStandardLeak(int _gdStandardLeak) {
@@ -592,7 +607,12 @@ public class SysParamsAll {
     }
 
     public static int get_adStandardTime() {
-        return _adStandardTime;
+        //设置时客车的话，安定试验不判断保压时间，因此保压时间标准值取最小值
+        if (PARAM_KEHUOCHE_KECHE.equals(getKeHuoChe())){
+            return PARAM_MIN_STANDARD_KEEPTIME;
+        } else {
+            return _adStandardTime;
+        }
     }
 
     public static void set_adStandardTime(int _adStandardTime) {
@@ -640,5 +660,13 @@ public class SysParamsAll {
 
     public static void set_jlStandardDrop(int _jlStandardDrop) {
         SysParamsAll._jlStandardDrop = _jlStandardDrop;
+    }
+
+    public static String getKeHuoChe() {
+        return keHuoChe;
+    }
+
+    public static void setKeHuoChe(String keHuoChe) {
+        SysParamsAll.keHuoChe = keHuoChe;
     }
 }

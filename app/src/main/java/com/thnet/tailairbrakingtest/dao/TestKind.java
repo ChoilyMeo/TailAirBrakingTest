@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.thnet.tailairbrakingtest.customapplication.WindTestApplication;
+import com.thnet.tailairbrakingtest.testwind.SysParamsAll;
 import com.thnet.tailairbrakingtest.testwind.TestContent;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -20,9 +21,12 @@ import java.util.List;
 )
 public class TestKind implements Parcelable {
     public final static int MAX_TEST_KIND_COUNT = 10;
+    public static final String TEST_KIND_NAME_ALL = "全部试验";
+    public static final String TEST_KIND_NAME_SAMPLE = "简略试验";
     private static final String TEST_CHECKED_VALUE = "1";
     private static final String TEST_NOT_CHECKED_VALUE = "0";
-    public static final String[] TEST_NAME_ALL = {TestContent.TEST_NAME_LX, TestContent.TEST_NAME_GD, TestContent.TEST_NAME_AD, TestContent.TEST_NAME_BY, TestContent.TEST_NAME_JL};
+    private static final String[] TEST_NAME_ALL = {TestContent.TEST_NAME_LX, TestContent.TEST_NAME_GD, TestContent.TEST_NAME_AD, TestContent.TEST_NAME_BY, TestContent.TEST_NAME_JL};
+    private static final String[] TEST_NAME_ALL_HUOCHE = {TestContent.TEST_NAME_GD, TestContent.TEST_NAME_AD, TestContent.TEST_NAME_JL};
 
     @Id(autoincrement = true)
     @Property(nameInDb = "id")
@@ -78,17 +82,25 @@ public class TestKind implements Parcelable {
     public boolean getTestCheckedByName(String testName){
         switch (testName){
             case TestContent.TEST_NAME_LX:
-                return TEST_CHECKED_VALUE.equals(testLX);
+                return isTestLXChecked();
             case TestContent.TEST_NAME_GD:
-                return TEST_CHECKED_VALUE.equals(testGD);
+                return isTestGDChecked();
             case TestContent.TEST_NAME_AD:
-                return TEST_CHECKED_VALUE.equals(testAD);
+                return isTestADChecked();
             case TestContent.TEST_NAME_BY:
-                return TEST_CHECKED_VALUE.equals(testBY);
+                return isTestBYChecked();
             case TestContent.TEST_NAME_JL:
-                return TEST_CHECKED_VALUE.equals(testJL);
+                return isTestJLChecked();
             default:
                 return false;
+        }
+    }
+
+    public static String[] getTestNameAll(){
+        if (SysParamsAll.PARAM_KEHUOCHE_KECHE.equals(SysParamsAll.getKeHuoChe())) {
+            return TEST_NAME_ALL;
+        } else {
+            return TEST_NAME_ALL_HUOCHE;
         }
     }
 
@@ -115,7 +127,12 @@ public class TestKind implements Parcelable {
     }
 
     public boolean isTestLXChecked(){
-        return  TEST_CHECKED_VALUE.equals(testLX);
+        //货车没有漏泄试验
+        if (SysParamsAll.PARAM_KEHUOCHE_KECHE.equals(SysParamsAll.getKeHuoChe())){
+            return TEST_CHECKED_VALUE.equals(testLX);
+        } else {
+            return false;
+        }
     }
 
     public void setTextLXChecked(boolean isCheck){
@@ -139,7 +156,12 @@ public class TestKind implements Parcelable {
     }
 
     public boolean isTestBYChecked(){
-        return  TEST_CHECKED_VALUE.equals(testBY);
+        //货车没有持续保压试验
+        if (SysParamsAll.PARAM_KEHUOCHE_KECHE.equals(SysParamsAll.getKeHuoChe())) {
+            return TEST_CHECKED_VALUE.equals(testBY);
+        } else {
+            return false;
+        }
     }
 
     public void setTextBYChecked(boolean isCheck){

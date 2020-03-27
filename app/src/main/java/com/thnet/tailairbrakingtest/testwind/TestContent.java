@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.View;
 
 import com.elvishew.xlog.XLog;
 import com.thnet.tailairbrakingtest.communication.OnTestFailedListener;
@@ -36,6 +37,11 @@ public class TestContent {
     static final String SHORT_TEST_NAME_BY = "保压";
     public static final String TEST_STATE_COMPLETED = "完成";
     public static final String TEST_STATE_NOT_COMPLETED = "已作业";
+    //界面展示控制变量，控制是否在界面显示主管压力、漏泄量、减压量、保压时间等值
+    protected int viewStatMainPressure = View.VISIBLE;
+    protected int viewStatKeepTime = View.VISIBLE;
+    protected int viewStatDropValue = View.VISIBLE;
+    protected int viewStatLeakValue = View.VISIBLE;
     //试验区别变量，不同的试验在构造函数中进行不同的赋值
     protected String testName;
     protected String shortTestName;
@@ -405,5 +411,37 @@ public class TestContent {
 
     public void setyPressureValue(int yPressureValue) {
         this.yPressureValue = yPressureValue;
+    }
+
+    public int getViewStatMainPressure() {
+        return viewStatMainPressure;
+    }
+
+    public void setViewStatMainPressure(int viewStatMainPressure) {
+        this.viewStatMainPressure = viewStatMainPressure;
+    }
+
+    public int getViewStatKeepTime() {
+        return viewStatKeepTime;
+    }
+
+    public void setViewStatKeepTime(int viewStatKeepTime) {
+        this.viewStatKeepTime = viewStatKeepTime;
+    }
+
+    public int getViewStatDropValue() {
+        return viewStatDropValue;
+    }
+
+    public void setViewStatDropValue(int viewStatDropValue) {
+        this.viewStatDropValue = viewStatDropValue;
+    }
+
+    public int getViewStatLeakValue() {
+        return viewStatLeakValue;
+    }
+
+    public void setViewStatLeakValue(int viewStatLeakValue) {
+        this.viewStatLeakValue = viewStatLeakValue;
     }
 }

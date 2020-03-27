@@ -27,6 +27,7 @@ public class InputInfoActivity extends AppCompatActivity implements View.OnClick
     private static final String TAG = InputInfoActivity.class.getSimpleName();
     private static final String PREFERENCE_NAME_TEST_KIND = "TestKind";
     private static final String PREFERENCE_NAME_RATED_PRESSURE = "RatedPressure";
+    private static final int REQUEST_CODE_TEST_SETTING = 1;
     private SharedPreferences preferences;
     EditText etRatedPressure;
     EditText etTrack;
@@ -77,6 +78,15 @@ public class InputInfoActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (REQUEST_CODE_TEST_SETTING == requestCode) {
+            selectedTestKind = null;
+            tvTestKind.setText("");
+        }
+    }
+
     private void showPop(){
         View view = View.inflate(this,R.layout.pop_layout,null);
         popupWindow = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
@@ -121,7 +131,7 @@ public class InputInfoActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.btn_TestSetting:
                 Intent intentTestSetting = new Intent(this, TestSettingActivity.class);
-                startActivity(intentTestSetting);
+                startActivityForResult(intentTestSetting, REQUEST_CODE_TEST_SETTING);
                 break;
             case R.id.tv_testKind:
                 if (popupWindow != null && popupWindow.isShowing()) {
