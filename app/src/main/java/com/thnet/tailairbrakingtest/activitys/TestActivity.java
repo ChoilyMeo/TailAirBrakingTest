@@ -215,11 +215,11 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startReplay(){
+        tvTrackNo.setText(trackNo);
+        tvTrainNo.setText(trainNo);
+        tvTrainCount.setText(trainCount);
         tvTestLeak.setVisibility(View.GONE);
         tvSave.setVisibility(View.GONE);
-        tvTrackNo.setText(dt.tData.getTrackNo());
-        tvTrainNo.setText(dt.tData.getTrainNo());
-        tvTrainCount.setText(dt.tData.getTrainCount());
         dt.startReplay(testId);
         chartView.setCanScroll(true);
     }
