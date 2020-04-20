@@ -245,7 +245,7 @@
                 android:paddingTop="@dimen/space_5"
                 android:paddingBottom="@dimen/space_5"
                 android:layout_weight="1"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
             <TextView
                 android:id="@+id/tv_save"
                 android:layout_width="0dp"
