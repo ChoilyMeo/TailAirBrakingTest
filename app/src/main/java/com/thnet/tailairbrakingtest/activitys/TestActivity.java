@@ -125,6 +125,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         llLeakValue = findViewById(R.id.ll_leakValue);
         llDropValue = findViewById(R.id.ll_dropValue);
         tvTestLeak = findViewById(R.id.tv_testLeak);
+        tvTestLeak.setOnClickListener(this);
         //根据漏泄试验的是否选择状态，来决定是否展示漏泄试验按钮
         if (testKind.isTestLXChecked()) {
             tvTestLeak.setVisibility(View.VISIBLE);
@@ -273,12 +274,13 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
     private void doTestLeak(){
         if (dt.tData.lstPressureValue.size() <= 0){
-            Toast.makeText(this, "试验未就绪。", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "压力数据未就绪。", Toast.LENGTH_LONG).show();
         } else if (null != dt.currTest && !TestContent.TEST_NAME_LX.equals(dt.currTest.getTestName()) && dt.currTest.getStat() == TestContent.TestState.tsDoing){
             Toast.makeText(this, "正在进行" + dt.currTest.getTestName() + "作业。", Toast.LENGTH_LONG).show();
         } else if (dt.tData.lstPressureValue.get(dt.tData.lstPressureValue.size() - 1).getPressureValue() <= SysParamsAll.get_testPressureValueMin(Integer.parseInt(dt.tData.getSpecifiedPressureValue()))){
             Toast.makeText(this, "压力低于充风下限。", Toast.LENGTH_LONG).show();
         } else {
+            Toast.makeText(this, "漏泄试验准备就绪。", Toast.LENGTH_LONG).show();
             tvTestLeak.setEnabled(false);
             dt.tData.testLx.reset();
             dt.currTest = dt.tData.testLx;

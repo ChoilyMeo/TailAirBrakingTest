@@ -26,7 +26,7 @@ public class TestKind implements Parcelable {
     private static final String TEST_CHECKED_VALUE = "1";
     private static final String TEST_NOT_CHECKED_VALUE = "0";
     private static final String[] TEST_NAME_ALL = {TestContent.TEST_NAME_LX, TestContent.TEST_NAME_GD, TestContent.TEST_NAME_AD, TestContent.TEST_NAME_BY, TestContent.TEST_NAME_JL};
-    private static final String[] TEST_NAME_ALL_HUOCHE = {TestContent.TEST_NAME_GD, TestContent.TEST_NAME_AD, TestContent.TEST_NAME_JL};
+    private static final String[] TEST_NAME_ALL_HUOCHE = {TestContent.TEST_NAME_GD_HC, TestContent.TEST_NAME_AD, TestContent.TEST_NAME_JL};
 
     @Id(autoincrement = true)
     @Property(nameInDb = "id")
@@ -85,6 +85,8 @@ public class TestKind implements Parcelable {
                 return isTestLXChecked();
             case TestContent.TEST_NAME_GD:
                 return isTestGDChecked();
+            case TestContent.TEST_NAME_GD_HC:
+                return isTestGDChecked();
             case TestContent.TEST_NAME_AD:
                 return isTestADChecked();
             case TestContent.TEST_NAME_BY:
@@ -110,6 +112,9 @@ public class TestKind implements Parcelable {
                 testLX = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
                 break;
             case TestContent.TEST_NAME_GD:
+                testGD = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
+                break;
+            case TestContent.TEST_NAME_GD_HC:
                 testGD = isCheck ? TEST_CHECKED_VALUE : TEST_NOT_CHECKED_VALUE;
                 break;
             case TestContent.TEST_NAME_AD:

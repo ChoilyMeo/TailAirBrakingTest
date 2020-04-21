@@ -26,7 +26,8 @@ import java.util.List;
  */
 public class TestContent {
     public static final String TEST_NAME_AD = "安定试验";
-    public static final String TEST_NAME_GD = "感度保压";
+    public static final String TEST_NAME_GD = "感度试验";
+    public static final String TEST_NAME_GD_HC = "感度保压";
     public static final String TEST_NAME_JL = "简略试验";
     public static final String TEST_NAME_LX = "漏泄试验";
     public static final String TEST_NAME_BY = "持续保压";
