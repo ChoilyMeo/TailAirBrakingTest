@@ -14,7 +14,7 @@ public class Test_JL extends TestContent {
         voiceFileNameNotCompleted = TipSoundPlayer.VOICE_FILE_NAME_NOT_COMPLETED_JL;
         analyseMax = SysParamsAll.get_jlAnalyseMax();
         analyseMin = SysParamsAll.get_jlAnalyseMin();
-        standardKeepTime = 0;
+        standardKeepTime = SysParamsAll.get_jlStandardTime();
         standardDrop = SysParamsAll.get_jlStandardDrop();
         standardLeak = 10000;
         drawColor = Color.YELLOW;

@@ -9,8 +9,10 @@ import java.util.List;
 public class SysParamsAll {
     public static final int SpecifiedPressure500 = 500;
     public static final int SpecifiedPressure600 = 600;
-    public static final int PARAM_MAX_STANDARD_LEAKVALUE = 10000;
-    public static final int PARAM_MIN_STANDARD_KEEPTIME = 0;
+    public static final int PARAM_MAX_STANDARD_LEAKVALUE_GD = 10000;
+    public static final int PARAM_MIN_STANDARD_KEEPTIME_AD = 0;
+    public static final int PARAM_MIN_STANDARD_KEEPTIME_JL = 0;
+    public static final int PARAM_MIN_STANDARD_KEEPTIME_JL60 = 0;
     public static final String PARAM_KEHUOCHE_KECHE = "0";
     public static final String PARAM_KEHUOCHE_HUOCHE = "1";
     //各项参数设置
@@ -61,6 +63,7 @@ public class SysParamsAll {
     private static int _byStandardTime = 180;
     private static int _byStandardDrop = 100;
     private static int _jlStandardDrop = 100;
+    private static int _jlStandardTime = PARAM_MIN_STANDARD_KEEPTIME_JL;
 
     //试验判断的误差设置
     private static int _wcDingYa = 15;
@@ -596,7 +599,7 @@ public class SysParamsAll {
     public static int get_gdStandardLeak() {
         //设置是客车的话，感度试验不进行漏泄量的判定，因此在获取漏泄量参数的时候，设置为最大值
         if (PARAM_KEHUOCHE_KECHE.equals(getKeHuoChe())){
-            return PARAM_MAX_STANDARD_LEAKVALUE;
+            return PARAM_MAX_STANDARD_LEAKVALUE_GD;
         } else {
             return _gdStandardLeak;
         }
@@ -609,7 +612,7 @@ public class SysParamsAll {
     public static int get_adStandardTime() {
         //设置时货车的话，安定试验不判断保压时间，因此保压时间标准值取最小值
         if (PARAM_KEHUOCHE_HUOCHE.equals(getKeHuoChe())){
-            return PARAM_MIN_STANDARD_KEEPTIME;
+            return PARAM_MIN_STANDARD_KEEPTIME_AD;
         } else {
             return _adStandardTime;
         }
@@ -660,6 +663,19 @@ public class SysParamsAll {
 
     public static void set_jlStandardDrop(int _jlStandardDrop) {
         SysParamsAll._jlStandardDrop = _jlStandardDrop;
+    }
+
+    public static int get_jlStandardTime() {
+        //设置是客车的话，简略判断时间1分钟，货车不判断
+        if (PARAM_KEHUOCHE_KECHE.equals(getKeHuoChe())){
+            return PARAM_MIN_STANDARD_KEEPTIME_JL60;
+        } else {
+            return _jlStandardTime;
+        }
+    }
+
+    public static void set_jlStandardTime(int _jlStandardTime) {
+        SysParamsAll._jlStandardTime = _jlStandardTime;
     }
 
     public static String getKeHuoChe() {
