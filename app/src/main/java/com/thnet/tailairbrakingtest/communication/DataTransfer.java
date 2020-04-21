@@ -3,8 +3,10 @@ package com.thnet.tailairbrakingtest.communication;
 import android.util.Log;
 
 import com.elvishew.xlog.XLog;
+import com.thnet.tailairbrakingtest.BuildConfig;
 import com.thnet.tailairbrakingtest.dao.PressureValue;
 import com.thnet.tailairbrakingtest.dao.TestKind;
+import com.thnet.tailairbrakingtest.serialport.LocalTestSerialPort;
 import com.thnet.tailairbrakingtest.serialport.OnOpenSerialPortListener;
 import com.thnet.tailairbrakingtest.serialport.OnSerialPortDataListener;
 import com.thnet.tailairbrakingtest.serialport.SerialPortManager;
@@ -104,7 +106,11 @@ public class DataTransfer implements OnSerialPortDataListener, OnOpenSerialPortL
 
     private void portInit() {
         totalReceiveBuffer.clear();
-        serialPortManager = new SerialPortManager();
+        if (BuildConfig.USE_LOCAL_TEST_DATA) {
+            serialPortManager = new LocalTestSerialPort();
+        } else {
+            serialPortManager = new SerialPortManager();
+        }
         serialPortManager.setOnOpenSerialPortListener(this);
         serialPortManager.setOnSerialPortDataListener(this);
     }
