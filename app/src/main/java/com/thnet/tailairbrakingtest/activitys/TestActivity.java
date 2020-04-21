@@ -265,6 +265,8 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(DialogInterface dialog, int which) {
                     dt.failedTest.reset();
                     dt.currTest = dt.failedTest;
+                    dt.lstTemp.clear();
+                    dt.lstEsti.clear();
                 }
             });
             AlertDialog dialog = builder.create();

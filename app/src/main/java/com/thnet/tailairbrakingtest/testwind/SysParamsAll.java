@@ -607,8 +607,8 @@ public class SysParamsAll {
     }
 
     public static int get_adStandardTime() {
-        //设置时客车的话，安定试验不判断保压时间，因此保压时间标准值取最小值
-        if (PARAM_KEHUOCHE_KECHE.equals(getKeHuoChe())){
+        //设置时货车的话，安定试验不判断保压时间，因此保压时间标准值取最小值
+        if (PARAM_KEHUOCHE_HUOCHE.equals(getKeHuoChe())){
             return PARAM_MIN_STANDARD_KEEPTIME;
         } else {
             return _adStandardTime;

@@ -142,8 +142,8 @@ public class TestContent {
 
     public TestContent checkStatus(String stime, int nPressureValue, CEstimate lstEsti, CEstimate lstTemp, List<PressureValue> lstPressureValue) {
         if (stat == TestState.tsNotBegin) {
-            if (lstEsti.getMax() - lstEsti.getMin() <= SysParamsAll.get_fluxRange() && lstTemp.getMax() - lstEsti.getMin() > SysParamsAll.get_fluxRange()) {
-                XLog.d("试验开始");
+            if (lstEsti.getMax() - lstEsti.getMin() <= SysParamsAll.get_fluxRange() && lstTemp.getMax() - lstEsti.getMax() > SysParamsAll.get_fluxRange()) {
+                XLog.d("试验(" + getTestName() + ")开始:EstiMax=" + lstEsti.getMax() + ",EstiMin=" + lstEsti.getMin() + ",EstiLen=" + lstEsti.getListLen() + ",TempMax=" + lstTemp.getMax() + ",TempLen=" + lstTemp.getListLen());
                 int dropPressureValue = lstTemp.getMax() - lstEsti.getAvg();
                 if (dropPressureValue >= analyseMin && dropPressureValue <= analyseMax) {
                     testMainPressureValue = getTestPressureValue(lstTemp);
@@ -163,7 +163,7 @@ public class TestContent {
                     TipSoundPlayer.PlayVoicePrompts(voiceFileNameBegin);
                 }
             } else {
-                XLog.d("不符合开始条件："+lstEsti.getMax()+"-"+lstEsti.getMin()+"<="+SysParamsAll.get_fluxRange()+"&&"+lstTemp.getMax()+"-"+lstTemp.getMin()+">"+SysParamsAll.get_fluxRange());
+                XLog.d("试验(" + getTestName() + ")不符合开始条件："+lstEsti.getMax()+"-"+lstEsti.getMin()+"<="+SysParamsAll.get_fluxRange()+"&&"+lstTemp.getMax()+"-"+lstEsti.getMax()+">"+SysParamsAll.get_fluxRange());
             }
             return this;
         } else if (stat == TestState.tsDoing) {
@@ -171,7 +171,7 @@ public class TestContent {
             xEndPos = lstPressureValue.size() - 1;
             if (testKeepTime <= standardKeepTime)
             {
-                XLog.d("计算漏泄量以及判断试验是否结束");
+                XLog.d("试验(" + getTestName() + ")计算漏泄量以及判断试验是否结束");
                 if (testKeepTime <= 60)
                 {
                     int lxl = testPressureValueMax - nPressureValue;
@@ -182,7 +182,7 @@ public class TestContent {
                 }
                 if (nPressureValue - lstEsti.getAvg() >= SysParamsAll.get_reliefRange())
                 {
-                    XLog.d("未到保压时间试验结束:zg"+testMainPressureValue+"keeptime"+testKeepTime+"dropvalue"+testDropValue+"leakvalue"+testLeakValue);
+                    XLog.d("试验(" + getTestName() + ")未到保压时间试验结束:zg"+testMainPressureValue+"keeptime"+testKeepTime+"dropvalue"+testDropValue+"leakvalue"+testLeakValue);
                     stat = TestState.tsStoped;
                     if (testMainPressureValue >= definedPressureValue - SysParamsAll.get_wcDingYa()
                             && testMainPressureValue <= definedPressureValue + SysParamsAll.get_wcDingYa()
@@ -201,7 +201,7 @@ public class TestContent {
                     }
                 }
             } else {
-                XLog.d("超过保压时间试验结束:zg"+testMainPressureValue+"keeptime"+testKeepTime+"dropvalue"+testDropValue+"leakvalue"+testLeakValue);
+                XLog.d("试验(" + getTestName() + ")超过保压时间试验结束:zg"+testMainPressureValue+"keeptime"+testKeepTime+"dropvalue"+testDropValue+"leakvalue"+testLeakValue);
                 stat = TestState.tsNotSelected;
                 if (testResult != TEST_STATE_COMPLETED && testResult != TEST_STATE_NOT_COMPLETED) {
                     if (testMainPressureValue >= definedPressureValue - SysParamsAll.get_wcDingYa()
@@ -224,20 +224,20 @@ public class TestContent {
         } else if (stat == TestState.tsNotSelected) {
             if (nPressureValue - lstEsti.getAvg() >= SysParamsAll.get_reliefRange())
             {
-                XLog.d(testName + "试验失败:" + testResult);
+                XLog.d("试验(" + getTestName() + ")失败:" + testResult);
                 stat = TestState.tsStoped;
                 if (TEST_NAME_GD.equals(getTestName())) {
                 }
                 if (TEST_STATE_NOT_COMPLETED.equals(testResult)) {
                     if (null != onTestFailedListener) {
-                        XLog.d("调用试验失败处理");
+                        XLog.d("试验(" + getTestName() + ")调用试验失败处理");
                         onTestFailedListener.onTestFailed();
                     }
                 }
             }
             return this;
         } else {
-            XLog.i(getTestName() + "试验状态" + stat + "未处理。");
+            XLog.i("试验(" + getTestName() + ")状态" + stat + "未处理。");
             return null;
         }
     }

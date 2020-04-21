@@ -12,7 +12,7 @@ public class CEstimate {
     public CEstimate(int maxLen){
         listMaxLen = maxLen;
     }
-    public void add(int pressureValue){
+    public synchronized void add(int pressureValue){
         if (lstValue.size() >= listMaxLen){
             lstValue.remove(0);
         }
@@ -30,6 +30,12 @@ public class CEstimate {
             }
         }
         avg = (int)((sum * 1.0) / lstValue.size() + 0.5);
+    }
+    public synchronized void clear(){
+        lstValue.clear();
+        max = 0;
+        min = 0;
+        avg = 0;
     }
     public int getAtPosition(int position){
         if (position >=0 && position < lstValue.size()){
