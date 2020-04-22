@@ -41,7 +41,7 @@ public class LocalTestSerialPort extends SerialPortManager {
                         XLog.e("使用本地测试文件测试定时处理异常：" + ex.getMessage());
                     }
                 }
-            }, 1000, 1000, TimeUnit.MILLISECONDS);
+            }, 1000, 4000, TimeUnit.MILLISECONDS);
             return true;
         } else {
             return super.openSerialPort(device, baudRate);

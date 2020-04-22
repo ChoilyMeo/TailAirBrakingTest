@@ -12,7 +12,7 @@ public class SysParamsAll {
     public static final int PARAM_MAX_STANDARD_LEAKVALUE_GD = 10000;
     public static final int PARAM_MIN_STANDARD_KEEPTIME_AD = 0;
     public static final int PARAM_MIN_STANDARD_KEEPTIME_JL = 0;
-    public static final int PARAM_MIN_STANDARD_KEEPTIME_JL60 = 0;
+    public static final int PARAM_MIN_STANDARD_KEEPTIME_JL60 = 60;
     public static final String PARAM_KEHUOCHE_KECHE = "0";
     public static final String PARAM_KEHUOCHE_HUOCHE = "1";
     //各项参数设置

@@ -201,7 +201,7 @@ public class TestContent {
                     }
                 }
             } else {
-                XLog.d("试验(" + getTestName() + ")超过保压时间试验结束:zg"+testMainPressureValue+"keeptime"+testKeepTime+"dropvalue"+testDropValue+"leakvalue"+testLeakValue);
+                XLog.d("试验(" + getTestName() + ")超过保压时间试验结束:zg="+testMainPressureValue+",keeptime="+testKeepTime+",standardKeepTime="+standardKeepTime+",dropvalue="+testDropValue+",leakvalue="+testLeakValue);
                 stat = TestState.tsNotSelected;
                 if (testResult != TEST_STATE_COMPLETED && testResult != TEST_STATE_NOT_COMPLETED) {
                     if (testMainPressureValue >= definedPressureValue - SysParamsAll.get_wcDingYa()
