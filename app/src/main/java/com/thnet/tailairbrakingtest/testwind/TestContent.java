@@ -246,22 +246,13 @@ public class TestContent {
         if (!chartView.validTestViewInRange(xBeginPos, xEndPos)) {
             return;
         }
-        Paint textPaint = chartView.getTextPaint();
-        textPaint.setColor(drawColor);
-        Paint linePaint = chartView.getChartLinePaint();
-        linePaint.setColor(drawColor);
-        int lineWidth = (int)linePaint.getStrokeWidth();
-        int textHeight = 0 - (textPaint.getFontMetricsInt().top - textPaint.getFontMetricsInt().bottom);
-        Rect testRect = new Rect(chartView.convertDataValuetoXpos(xBeginPos), (int)chartView.convertDataValueToYpos(yPressureValue) - textHeight / 2,
-                chartView.convertDataValuetoXpos(xEndPos) + lineWidth * 2, (int)chartView.convertDataValueToYpos(yPressureValue) + textHeight / 2 + lineWidth * 2);
-        canvas.drawRect(testRect, linePaint);
         String viewTestName = "";
         if (stat == TestState.tsDoing ) {
             viewTestName = String.valueOf(testKeepTime);
         } else {
             viewTestName = shortTestName;
         }
-        canvas.drawText(viewTestName, testRect.left + lineWidth, testRect.top - textPaint.getFontMetricsInt().top + lineWidth, textPaint);
+        chartView.drawTestRectangle(canvas, xBeginPos, xEndPos, yPressureValue, drawColor, viewTestName);
     }
 
     public void update(DaoSession daoSession, String testID){

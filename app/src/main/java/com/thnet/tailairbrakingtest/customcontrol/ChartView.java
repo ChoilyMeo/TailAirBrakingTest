@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -20,15 +21,34 @@ import com.thnet.tailairbrakingtest.utility.DensityUtil;
 import java.util.Date;
 
 public class ChartView extends View {
+    /**
+     * 横向水平线的数量
+     */
     private final static int Y_SCALE_LEVEL_COUNT = 7;
+    /**
+     * 横向水平线展示的文字
+     */
     private final static String[] Y_SCALE_TEXT = {"700", "600", "500", "400", "300", "200", "100"};
+    /**
+     * 横向水平线对应的压力值
+     */
     private final static int[] Y_SCALE_VALUES = {700, 600, 500, 400, 300, 200, 100};
+    /**
+     * 坐标轴的线条粗细
+     */
     private final static int DRAW_LINE_WIDTH_AXIS = 2;
+    /**
+     * 曲线的线条粗细
+     */
     private final static int DRAW_LINE_WIDTH_CHART = 3;
     /**
      * Y坐标的数据最大值
      */
     private final static int Y_MAX_DATA_VALUE = 700;
+    /**
+     * 两点之间的曲线的X长度，用来控制曲线的横向颗粒度
+     */
+    private final static int POINT_WIDTH = 4;
     private int mViewWidth, mViewHeight, mTextBaseLineToTop, mChartViewWidth, mChartViewHeight, mChartViewStartPos, mScaleYaxisTextSize, mTextHeight;
     private int mViewDataStartPos = 0;
     private float mScaleYaxis;
@@ -114,6 +134,10 @@ public class ChartView extends View {
         canvas.drawPath(mLinePath, mAxisPaint);
     }
 
+    /**
+     * 画曲线
+     * @param canvas 画布
+     */
     private void drawChart(Canvas canvas){
         if (null != mViewTestData){
             mTextPaint.setColor(Color.BLACK);
@@ -136,7 +160,7 @@ public class ChartView extends View {
                 mLinePath.reset();
                 mLinePath.moveTo(mChartViewStartPos, convertDataValueToYpos(mViewTestData.lstPressureValue.get(mViewDataStartPos).getPressureValue()));
                 for (int i = mViewDataStartPos; i < mViewTestData.lstPressureValue.size(); i++){
-                    mLinePath.lineTo(mChartViewStartPos + i - mViewDataStartPos, convertDataValueToYpos(mViewTestData.lstPressureValue.get(i).getPressureValue()));
+                    mLinePath.lineTo(mChartViewStartPos + (i - mViewDataStartPos) * POINT_WIDTH, convertDataValueToYpos(mViewTestData.lstPressureValue.get(i).getPressureValue()));
                 }
                 mChartLinePaint.setColor(Color.RED);
                 canvas.drawPath(mLinePath, mChartLinePaint);
@@ -145,6 +169,19 @@ public class ChartView extends View {
                 }
             }
         }
+    }
+
+    public void drawTestRectangle(Canvas canvas, int xBeginPos, int xEndPos, int yPressureValue, int drawColor, String viewTestName){
+        Paint textPaint = getTextPaint();
+        textPaint.setColor(drawColor);
+        Paint linePaint = getChartLinePaint();
+        linePaint.setColor(drawColor);
+        int lineWidth = (int)linePaint.getStrokeWidth();
+        int textHeight = 0 - (textPaint.getFontMetricsInt().top - textPaint.getFontMetricsInt().bottom);
+        Rect testRect = new Rect(convertDataValuetoXpos(xBeginPos), (int)convertDataValueToYpos(yPressureValue) - textHeight / 2,
+                convertDataValuetoXpos(xEndPos) + lineWidth * 2, (int)convertDataValueToYpos(yPressureValue) + textHeight / 2 + lineWidth * 2);
+        canvas.drawRect(testRect, linePaint);
+        canvas.drawText(viewTestName, testRect.left + lineWidth, testRect.top - textPaint.getFontMetricsInt().top + lineWidth, textPaint);
     }
 
     public float convertDataValueToYpos(int dataValue){
@@ -159,10 +196,10 @@ public class ChartView extends View {
     public int convertDataValuetoXpos(int dataValue){
         if (dataValue < mViewDataStartPos){
             dataValue = mViewDataStartPos;
-        } else if (dataValue - mViewDataStartPos > mChartViewWidth){
-            dataValue = mViewDataStartPos + mChartViewWidth;
+        } else if (dataValue - mViewDataStartPos > mChartViewWidth / POINT_WIDTH){
+            dataValue = mViewDataStartPos + mChartViewWidth / POINT_WIDTH;
         }
-        return dataValue - mViewDataStartPos + mChartViewStartPos;
+        return (dataValue - mViewDataStartPos) * POINT_WIDTH + mChartViewStartPos;
     }
 
     @Override
@@ -215,12 +252,12 @@ public class ChartView extends View {
     }
 
     public boolean validTestViewInRange(int beginPos, int endPos){
-        return !(beginPos < 0 || beginPos < mViewDataStartPos || endPos < mViewDataStartPos || endPos < beginPos || endPos - mViewDataStartPos > mChartViewWidth);
+        return !(beginPos < 0 || beginPos < mViewDataStartPos || endPos < mViewDataStartPos || endPos < beginPos || endPos - mViewDataStartPos > mChartViewWidth / POINT_WIDTH);
     }
 
     public void viewToEnd(){
-        if (mViewTestData.lstPressureValue.size() > mChartViewWidth){
-            mViewDataStartPos = mViewTestData.lstPressureValue.size() - mChartViewWidth;
+        if (mViewTestData.lstPressureValue.size() > mChartViewWidth / POINT_WIDTH){
+            mViewDataStartPos = mViewTestData.lstPressureValue.size() - mChartViewWidth / POINT_WIDTH;
         }
         invalidate();
     }
@@ -235,8 +272,8 @@ public class ChartView extends View {
             return;
         }
         if (mCanScroll) {
-            if (mViewDataStartPos >= size) {
-                mViewDataStartPos -= size;
+            if (mViewDataStartPos >= size / POINT_WIDTH) {
+                mViewDataStartPos -= size / POINT_WIDTH;
             } else {
                 mViewDataStartPos = 0;
             }
@@ -250,8 +287,8 @@ public class ChartView extends View {
             return;
         }
         if (mCanScroll) {
-            if (mViewDataStartPos + size < mViewTestData.lstPressureValue.size() - mChartViewWidth) {
-                mViewDataStartPos += size;
+            if (mViewDataStartPos + size / POINT_WIDTH < mViewTestData.lstPressureValue.size() - mChartViewWidth / POINT_WIDTH) {
+                mViewDataStartPos += size / POINT_WIDTH;
             }
             invalidate();
             XLog.d("向右移动"+size+"后刷新显示。");
