@@ -20,7 +20,7 @@ public class Test_BY extends TestContent {
         viewStatMainPressure = View.VISIBLE;
         viewStatKeepTime = View.VISIBLE;
         viewStatDropValue = View.VISIBLE;
-        viewStatLeakValue = View.GONE;
+        viewStatLeakValue = View.VISIBLE;
     }
 
     @Override
