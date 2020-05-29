@@ -48,7 +48,7 @@ public class ChartView extends View {
     /**
      * 两点之间的曲线的X长度，用来控制曲线的横向颗粒度
      */
-    private final static int POINT_WIDTH = 4;
+    private final static int POINT_WIDTH = 2;
     private int mViewWidth, mViewHeight, mTextBaseLineToTop, mChartViewWidth, mChartViewHeight, mChartViewStartPos, mScaleYaxisTextSize, mTextHeight;
     private int mViewDataStartPos = 0;
     private float mScaleYaxis;
