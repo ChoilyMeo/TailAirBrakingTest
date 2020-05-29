@@ -212,7 +212,9 @@ public class TestContent {
                             && testLeakValue < standardLeak + SysParamsAll.get_wcLouXie()) {
                         testResult = TEST_STATE_COMPLETED;
                         //修正保压时间为标准保压 时间
-                        testKeepTime = testKeepTime < standardKeepTime ? standardKeepTime : testKeepTime;
+                        if (standardKeepTime > 0) {
+                            testKeepTime = standardKeepTime;
+                        }
                         TipSoundPlayer.PlayVoicePrompts(voiceFileNameCompleted);
                     } else {
                         testResult = TEST_STATE_NOT_COMPLETED;

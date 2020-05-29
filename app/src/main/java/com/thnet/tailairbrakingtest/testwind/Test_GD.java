@@ -20,12 +20,13 @@ public class Test_GD extends TestContent {
         viewStatMainPressure = View.VISIBLE;
         viewStatKeepTime = View.VISIBLE;
         viewStatDropValue = View.VISIBLE;
-        viewStatLeakValue = View.GONE;
-        //设置是客车显示试验名称是“感度试验”，货车显示试验名称是“感度保压”
+        //设置是客车显示试验名称是“感度试验”，不展示漏泄量；货车显示试验名称是“感度保压”，展示漏泄量
         if (SysParamsAll.PARAM_KEHUOCHE_KECHE.equals(SysParamsAll.getKeHuoChe())){
             testName = TEST_NAME_GD;
+            viewStatLeakValue = View.GONE;
         } else {
             testName = TEST_NAME_GD_HC;
+            viewStatLeakValue = View.VISIBLE;
         }
     }
 
