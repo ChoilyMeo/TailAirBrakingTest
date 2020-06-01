@@ -25,7 +25,6 @@ import com.thnet.tailairbrakingtest.communication.OnTestFailedListener;
 import com.thnet.tailairbrakingtest.customcontrol.ChartView;
 import com.thnet.tailairbrakingtest.dao.TestKind;
 import com.thnet.tailairbrakingtest.R;
-import com.thnet.tailairbrakingtest.serialport.RF433PowerControl;
 import com.thnet.tailairbrakingtest.testwind.SysParamsAll;
 import com.thnet.tailairbrakingtest.testwind.TestContent;
 import com.thnet.tailairbrakingtest.utility.TipSoundPlayer;
@@ -152,7 +151,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 String pressureValue, keepTime, leakValue, dropValue;
                 pressureValue = String.valueOf(dt.currTest.getTestMainPressureValue());
                 keepTime = String.valueOf(dt.currTest.getTestKeepTime());
-                leakValue = String.valueOf(dt.currTest.getTestLeakValue());
+                leakValue = dt.currTest.getTestLeakValueDisplay();
                 dropValue = String.valueOf(dt.currTest.getTestDropValue());
                 tvTestName.setText(dt.currTest.getTestName());
                 etMainPressureValue.setText(pressureValue);

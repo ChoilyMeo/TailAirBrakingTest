@@ -20,12 +20,13 @@ public class Test_JL extends TestContent {
         drawColor = Color.YELLOW;
         viewStatMainPressure = View.VISIBLE;
         viewStatDropValue = View.VISIBLE;
-        viewStatLeakValue = View.GONE;
-        //设置是客车展示保压时间；货车不展示保压时间
+        //设置是客车展示保压时间和漏泄量；货车不展示保压时间和漏泄量
         if (SysParamsAll.PARAM_KEHUOCHE_KECHE.equals(SysParamsAll.getKeHuoChe())){
             viewStatKeepTime = View.VISIBLE;
+            viewStatLeakValue = View.VISIBLE;
         } else {
             viewStatKeepTime = View.GONE;
+            viewStatLeakValue = View.GONE;
         }
     }
 }

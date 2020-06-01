@@ -46,13 +46,13 @@ public class Test_LX extends TestContent {
                 testPressureValueMin = nPressureValue > testPressureValueMax ? testPressureValueMax : nPressureValue;
             }
             setEndTime(stime);
-            testLeakValue = testPressureValueMax - testPressureValueMin;
+            setTestLeakValue(testPressureValueMax - testPressureValueMin);
             xEndPos = lstPressureValue.size() - 1;
             if (testKeepTime >= SysParamsAll.get_lxStandardTime()) {
                 //修正保压时间为标准保压时间
                 testKeepTime = testKeepTime < standardKeepTime ? standardKeepTime : testKeepTime;
                 stat = TestState.tsStoped;
-                if (testMainPressureValue < definedPressureValue - SysParamsAll.get_wcDingYa() || testLeakValue >= SysParamsAll.get_lxStandardLeak()
+                if (testMainPressureValue < definedPressureValue - SysParamsAll.get_wcDingYa() || getTestLeakValue() >= SysParamsAll.get_lxStandardLeak()
                         || testMainPressureValue > definedPressureValue + SysParamsAll.get_wcDingYa()) {
                     testResult = TEST_STATE_NOT_COMPLETED;
                     TipSoundPlayer.PlayVoicePrompts(voiceFileNameNotCompleted);

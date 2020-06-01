@@ -2,8 +2,6 @@ package com.thnet.tailairbrakingtest.testwind;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.view.View;
 
 import com.elvishew.xlog.XLog;
@@ -54,7 +52,7 @@ public class TestContent {
     protected String endTime = "";//结束时间
     protected int testMainPressureValue = 0;//主管压力
     protected int testDropValue = 0;//减压量
-    protected int testLeakValue = 0;//漏泄量
+    protected int testLeakValue = 0;//漏泄量，如果取的是五分钟漏泄量的话，则是第一分钟漏泄量
     protected int testKeepTime = 0;//保压时间
     protected String testResult = "";//试验结果
     protected TestState stat = TestState.tsNotBegin;
@@ -124,7 +122,7 @@ public class TestContent {
         stat = TestState.tsNotBegin;
     }
 
-    private int getTestPressureValue(CEstimate lstTemp) {
+    protected int getTestPressureValue(CEstimate lstTemp) {
         int pressureValue = 0;
         CEstimate e = new CEstimate(SysParamsAll.get_EstiDataLen());
         for (int i = lstTemp.getListLen() - 1; i >= 0; i--) {
@@ -138,6 +136,42 @@ public class TestContent {
             pressureValue = lstTemp.getMax();
         }
         return pressureValue;
+    }
+
+    protected boolean validateTestSuccess(){
+        return validateMainPressureValue() &&
+                validateKeepTime() &&
+                validateDropValue() &&
+                validateLeakValue();
+    }
+
+    protected boolean validateMainPressureValue(){
+        return getTestMainPressureValue() >= getDefinedPressureValue() - getWcDingYa()
+                && getTestMainPressureValue() <= getDefinedPressureValue() + getWcDingYa();
+    }
+
+    protected boolean validateKeepTime(){
+        return getTestKeepTime() >= getStandardKeepTime();
+    }
+
+    protected boolean validateDropValue(){
+        return getTestDropValue() >= getStandardDrop() - getWcJianYa()
+                && getTestDropValue() <= getStandardDrop() + getWcJianYa();
+    }
+
+    protected boolean validateLeakValue(){
+        return getTestLeakValue() < getStandardLeak() + getWcLouXie();
+    }
+
+    protected void updateTestLeakValue(int testLeakValue){
+        if (getTestKeepTime() <= 60)
+        {
+            int lxl = testLeakValue;
+            if (lxl < 0) {
+                lxl = 0;
+            }
+            setTestLeakValue(lxl);
+        }
     }
 
     public TestContent checkStatus(String stime, int nPressureValue, CEstimate lstEsti, CEstimate lstTemp, List<PressureValue> lstPressureValue) {
@@ -172,24 +206,12 @@ public class TestContent {
             if (testKeepTime <= standardKeepTime)
             {
                 XLog.d("试验(" + getTestName() + ")计算漏泄量以及判断试验是否结束");
-                if (testKeepTime <= 60)
-                {
-                    int lxl = testPressureValueMax - nPressureValue;
-                    if (lxl < 0) {
-                        lxl = 0;
-                    }
-                    this.testLeakValue = lxl;
-                }
+                updateTestLeakValue(testPressureValueMax - nPressureValue);
                 if (nPressureValue - lstEsti.getAvg() >= SysParamsAll.get_reliefRange())
                 {
-                    XLog.d("试验(" + getTestName() + ")未到保压时间试验结束:zg"+testMainPressureValue+"keeptime"+testKeepTime+"dropvalue"+testDropValue+"leakvalue"+testLeakValue);
+                    XLog.d("试验(" + getTestName() + ")未到保压时间试验结束:zg"+testMainPressureValue+"keeptime"+testKeepTime+"dropvalue"+testDropValue+"leakvalue"+ getTestLeakValueDisplay());
                     stat = TestState.tsStoped;
-                    if (testMainPressureValue >= definedPressureValue - SysParamsAll.get_wcDingYa()
-                            && testMainPressureValue <= definedPressureValue + SysParamsAll.get_wcDingYa()
-                            && testKeepTime >= standardKeepTime
-                            && testDropValue >= standardDrop - SysParamsAll.get_wcJianYa()
-                            && testDropValue <= standardDrop + SysParamsAll.get_wcJianYa()
-                            && testLeakValue < standardLeak + SysParamsAll.get_wcLouXie()) {
+                    if (validateTestSuccess()) {
                         testResult = TEST_STATE_COMPLETED;
                         TipSoundPlayer.PlayVoicePrompts(voiceFileNameCompleted);
                     } else {
@@ -201,15 +223,10 @@ public class TestContent {
                     }
                 }
             } else {
-                XLog.d("试验(" + getTestName() + ")超过保压时间试验结束:zg="+testMainPressureValue+",keeptime="+testKeepTime+",standardKeepTime="+standardKeepTime+",dropvalue="+testDropValue+",leakvalue="+testLeakValue);
+                XLog.d("试验(" + getTestName() + ")超过保压时间试验结束:zg="+testMainPressureValue+",keeptime="+testKeepTime+",standardKeepTime="+standardKeepTime+",dropvalue="+testDropValue+",leakvalue="+ getTestLeakValueDisplay());
                 stat = TestState.tsNotSelected;
                 if (testResult != TEST_STATE_COMPLETED && testResult != TEST_STATE_NOT_COMPLETED) {
-                    if (testMainPressureValue >= definedPressureValue - SysParamsAll.get_wcDingYa()
-                            && testMainPressureValue <= definedPressureValue + SysParamsAll.get_wcDingYa()
-                            && testKeepTime >= standardKeepTime
-                            && testDropValue >= standardDrop - SysParamsAll.get_wcJianYa()
-                            && testDropValue <= standardDrop + SysParamsAll.get_wcJianYa()
-                            && testLeakValue < standardLeak + SysParamsAll.get_wcLouXie()) {
+                    if (validateTestSuccess()) {
                         testResult = TEST_STATE_COMPLETED;
                         //修正保压时间为标准保压 时间
                         if (standardKeepTime > 0) {
@@ -265,7 +282,7 @@ public class TestContent {
         testDetail.setEndTime(getEndTime());
         testDetail.setTestPressure(String.valueOf(getTestMainPressureValue()));
         testDetail.setKeepTime(String.valueOf(getTestKeepTime()));
-        testDetail.setLeakValue(String.valueOf(getTestLeakValue()));
+        testDetail.setLeakValue(getTestLeakValueDisplay());
         testDetail.setDropValue(String.valueOf(getTestDropValue()));
         testDetail.setState(getTestResult());
         daoSession.getTestDetailDao().insert(testDetail);
@@ -281,7 +298,7 @@ public class TestContent {
                 setEndTime(testDetail.getEndTime());
                 setTestMainPressureValue(Integer.parseInt(testDetail.getTestPressure()));
                 setTestDropValue(Integer.parseInt(testDetail.getDropValue()));
-                setTestLeakValue(Integer.parseInt(testDetail.getLeakValue()));
+                setTestLeakValueFromDisplay(testDetail.getLeakValue());
                 setTestKeepTime(Integer.parseInt(testDetail.getKeepTime()));
                 setTestResult(testDetail.getState());
                 xBeginPos = -1;
@@ -437,5 +454,92 @@ public class TestContent {
 
     public void setViewStatLeakValue(int viewStatLeakValue) {
         this.viewStatLeakValue = viewStatLeakValue;
+    }
+
+    public int getWcDingYa() {
+        return wcDingYa;
+    }
+
+    public void setWcDingYa(int wcDingYa) {
+        this.wcDingYa = wcDingYa;
+    }
+
+    public int getDefinedPressureValue() {
+        return definedPressureValue;
+    }
+
+    public void setDefinedPressureValue(int definedPressureValue) {
+        this.definedPressureValue = definedPressureValue;
+    }
+
+    public int getAnalyseMax() {
+        return analyseMax;
+    }
+
+    public void setAnalyseMax(int analyseMax) {
+        this.analyseMax = analyseMax;
+    }
+
+    public int getStandardKeepTime() {
+        return standardKeepTime;
+    }
+
+    public void setStandardKeepTime(int standardKeepTime) {
+        this.standardKeepTime = standardKeepTime;
+    }
+
+    public int getStandardDrop() {
+        return standardDrop;
+    }
+
+    public void setStandardDrop(int standardDrop) {
+        this.standardDrop = standardDrop;
+    }
+
+    public int getStandardLeak() {
+        return standardLeak;
+    }
+
+    public void setStandardLeak(int standardLeak) {
+        this.standardLeak = standardLeak;
+    }
+
+    public int getWcBaoYa() {
+        return wcBaoYa;
+    }
+
+    public void setWcBaoYa(int wcBaoYa) {
+        this.wcBaoYa = wcBaoYa;
+    }
+
+    public int getWcJianYa() {
+        return wcJianYa;
+    }
+
+    public void setWcJianYa(int wcJianYa) {
+        this.wcJianYa = wcJianYa;
+    }
+
+    public int getWcLouXie() {
+        return wcLouXie;
+    }
+
+    public void setWcLouXie(int wcLouXie) {
+        this.wcLouXie = wcLouXie;
+    }
+
+    public String getTestLeakValueDisplay() {
+        return String.valueOf(testLeakValue);
+    }
+
+    public void setTestLeakValueFromDisplay(String testLeakValueEx) {
+        int inConvertValue = 0;
+        try{
+            inConvertValue = Integer.parseInt(testLeakValueEx);
+        } catch (Exception ex) {
+            inConvertValue = 0;
+            XLog.w("漏泄量("+ testLeakValueEx +")转换为整数失败。");
+        }
+        this.testLeakValue = inConvertValue;
     }
 }

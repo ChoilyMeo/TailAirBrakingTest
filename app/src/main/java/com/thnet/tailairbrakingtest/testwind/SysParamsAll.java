@@ -13,6 +13,9 @@ public class SysParamsAll {
     public static final int PARAM_MIN_STANDARD_KEEPTIME_AD = 0;
     public static final int PARAM_MIN_STANDARD_KEEPTIME_JL = 0;
     public static final int PARAM_MIN_STANDARD_KEEPTIME_JL60 = 60;
+    public static final int CHECK_LEAK_VALUE_TYPE_ONE_MINUTE = 0;
+    public static final int CHECK_LEAK_VALUE_TYPE_PER_MINUTE = 1;
+    public static final int CHECK_LEAK_VALUE_TYPE_ALL_KEEP_TIME = 2;
     public static final String PARAM_KEHUOCHE_KECHE = "0";
     public static final String PARAM_KEHUOCHE_HUOCHE = "1";
     //各项参数设置
@@ -33,6 +36,8 @@ public class SysParamsAll {
     private static int _judgeEndTimes = 15;
     //客车货车区分标志：0客车，1货车
     private static String keHuoChe = "1";
+    //持续保压试验漏泄量判定的类型：0-取第一分钟的漏泄量；1-取每一分钟的漏泄量；2-取标准保压时间内的漏泄量
+    private static int checkLeakValueType = CHECK_LEAK_VALUE_TYPE_ONE_MINUTE;
 
     private static int _TempDateLen = 100;
     private static int _EstiDataLen = 10;
@@ -239,6 +244,10 @@ public class SysParamsAll {
             if (parms.getParamID().equals("KeHuoChe"))
             {
                 keHuoChe = parms.getParamValue();
+            }
+            if (parms.getParamID().equals("CheckLeakValueType"))
+            {
+                checkLeakValueType = Integer.parseInt(parms.getParamValue());
             }
         }
         return parmsList;
@@ -684,5 +693,13 @@ public class SysParamsAll {
 
     public static void setKeHuoChe(String keHuoChe) {
         SysParamsAll.keHuoChe = keHuoChe;
+    }
+
+    public static int getCheckLeakValueType() {
+        return checkLeakValueType;
+    }
+
+    public static void setCheckLeakValueType(int checkLeakValueType) {
+        SysParamsAll.checkLeakValueType = checkLeakValueType;
     }
 }
