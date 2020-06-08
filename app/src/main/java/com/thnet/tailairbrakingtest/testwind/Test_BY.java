@@ -59,7 +59,11 @@ public class Test_BY extends TestContent {
     }
 
     public void setTestLeakValue2(int testLeakValue2) {
-        this.testLeakValue2 = testLeakValue2;
+        if (testLeakValue2 > getTestLeakValue()){
+            this.testLeakValue2 = testLeakValue2 - getTestLeakValue();
+        } else {
+            this.testLeakValue2 = 0;
+        }
     }
 
     public int getTestLeakValue3() {
@@ -67,7 +71,11 @@ public class Test_BY extends TestContent {
     }
 
     public void setTestLeakValue3(int testLeakValue3) {
-        this.testLeakValue3 = testLeakValue3;
+        if (testLeakValue3 > getTestLeakValue() + getTestLeakValue2()){
+            this.testLeakValue3 = testLeakValue3 - getTestLeakValue() - getTestLeakValue2();
+        } else {
+            this.testLeakValue3 = 0;
+        }
     }
 
     public int getTestLeakValue4() {
@@ -75,7 +83,11 @@ public class Test_BY extends TestContent {
     }
 
     public void setTestLeakValue4(int testLeakValue4) {
-        this.testLeakValue4 = testLeakValue4;
+        if (testLeakValue4 > getTestLeakValue() + getTestLeakValue2() + getTestLeakValue3()){
+            this.testLeakValue4 = testLeakValue4 - getTestLeakValue() - getTestLeakValue2() - getTestLeakValue3();
+        } else {
+            this.testLeakValue4 = 0;
+        }
     }
 
     public int getTestLeakValue5() {
@@ -83,7 +95,11 @@ public class Test_BY extends TestContent {
     }
 
     public void setTestLeakValue5(int testLeakValue5) {
-        this.testLeakValue5 = testLeakValue5;
+        if (testLeakValue5 > getTestLeakValue() + getTestLeakValue2() + getTestLeakValue3() + getTestLeakValue4()){
+            this.testLeakValue5 = testLeakValue5 - getTestLeakValue() - getTestLeakValue2() - getTestLeakValue3() - getTestLeakValue4();
+        } else {
+            this.testLeakValue5 = 0;
+        }
     }
 
     public int getCheckLeakValueType() {

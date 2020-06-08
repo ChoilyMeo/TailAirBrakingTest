@@ -245,7 +245,7 @@ public class SysParamsAll {
             {
                 keHuoChe = parms.getParamValue();
             }
-            if (parms.getParamID().equals("CheckLeakValueType"))
+            if (parms.getParamID().equals("ChkLeakType"))
             {
                 checkLeakValueType = Integer.parseInt(parms.getParamValue());
             }
