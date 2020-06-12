@@ -51,6 +51,7 @@ public class TestData {
         listTest.add(testJl);
         lstPressureValue = new ArrayList<PressureValue>(0);
         setTestDate(formatterDate.format(new Date()));
+        mTestContent.setTestOperator(SysParamsAll.get_testOperatorName());
     }
 
     public void reset() {
