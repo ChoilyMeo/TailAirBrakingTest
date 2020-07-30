@@ -147,7 +147,11 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             if (tvTestLeak.isEnabled() == false && dt.tData.lstPressureValue.size() > 0 && (dt.currTest == null || dt.currTest.getTestName() != TestContent.TEST_NAME_LX)) {
                 tvTestLeak.setEnabled(true);
             }
+            XLog.i(String.format("testName=%s,testStat=%d",dt.currTest == null ? "null":dt.currTest.getTestName(),dt.currTest == null ? -1 : dt.currTest.getStat().ordinal()));
             if (null != dt.currTest && (dt.currTest.getStat() == TestContent.TestState.tsDoing || dt.currTest.getStat() == TestContent.TestState.tsStoped)) {
+                llDropValue.setVisibility(dt.currTest.getViewStatDropValue());
+                llKeepTime.setVisibility(dt.currTest.getViewStatKeepTime());
+                llLeakValue.setVisibility(dt.currTest.getViewStatLeakValue());
                 String pressureValue, keepTime, leakValue, dropValue;
                 pressureValue = String.valueOf(dt.currTest.getTestMainPressureValue());
                 keepTime = String.valueOf(dt.currTest.getTestKeepTime());
@@ -158,9 +162,11 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 etDropValue.setText(dropValue);
                 etKeepTime.setText(keepTime);
                 etLeakValue.setText(leakValue);
-                llDropValue.setVisibility(dt.currTest.getViewStatDropValue());
-                llKeepTime.setVisibility(dt.currTest.getViewStatKeepTime());
-                llLeakValue.setVisibility(dt.currTest.getViewStatLeakValue());
+                XLog.i(String.format("testname=%s,dropValueEnabled=%d,leakValueEnabled=%d,keepTimeEnabled=%d",
+                        dt.currTest.getTestName(),
+                        dt.currTest.getViewStatDropValue(),
+                        dt.currTest.getViewStatLeakValue(),
+                        dt.currTest.getViewStatKeepTime()));
             }
         } catch (Exception ex) {
             XLog.e("显示试验状态异常：" + ex);

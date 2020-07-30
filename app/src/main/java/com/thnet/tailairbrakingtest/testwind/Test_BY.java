@@ -182,8 +182,57 @@ public class Test_BY extends TestContent {
     @Override
     public void setTestLeakValueFromDisplay(String testLeakValueEx) {
         if (StringUtil.isNullOrEmpty(testLeakValueEx)){
-
+            int leakValue = 0;
+            String[] arrLeakValue = testLeakValueEx.split(",");
+            if (null != arrLeakValue && arrLeakValue.length >= 5){
+                try{
+                    leakValue = Integer.parseInt(arrLeakValue[0]);
+                } catch (Exception ex) {
+                    leakValue = 0;
+                }
+                setTestLeakValue(leakValue);
+                try{
+                    leakValue = Integer.parseInt(arrLeakValue[1]);
+                } catch (Exception ex) {
+                    leakValue = -1;
+                }
+                setTestLeakValue2(leakValue);
+                try{
+                    leakValue = Integer.parseInt(arrLeakValue[2]);
+                } catch (Exception ex) {
+                    leakValue = -1;
+                }
+                setTestLeakValue3(leakValue);
+                try{
+                    leakValue = Integer.parseInt(arrLeakValue[3]);
+                } catch (Exception ex) {
+                    leakValue = -1;
+                }
+                setTestLeakValue4(leakValue);
+                try{
+                    leakValue = Integer.parseInt(arrLeakValue[4]);
+                } catch (Exception ex) {
+                    leakValue = -1;
+                }
+                setTestLeakValue5(leakValue);
+            } else {
+                try{
+                    leakValue = Integer.parseInt(arrLeakValue[0]);
+                } catch (Exception ex) {
+                    leakValue = 0;
+                }
+                setTestLeakValue(leakValue);
+                setTestLeakValue2(-1);
+                setTestLeakValue3(-1);
+                setTestLeakValue4(-1);
+                setTestLeakValue5(-1);
+            }
+        } else {
+            setTestLeakValue(0);
+            setTestLeakValue2(-1);
+            setTestLeakValue3(-1);
+            setTestLeakValue4(-1);
+            setTestLeakValue5(-1);
         }
-        super.setTestLeakValueFromDisplay(testLeakValueEx);
     }
 }
