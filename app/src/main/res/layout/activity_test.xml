@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_white"
+    tools:context=".activitys.TestActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/space_10">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="股道:"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_18"/>
+        <TextView
+            android:id="@+id/tv_trackNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_18"
+            android:layout_marginRight="@dimen/space_10" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="车次:"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_18"/>
+        <TextView
+            android:id="@+id/tv_trainNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="T6551"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_18"
+            android:layout_marginRight="@dimen/space_10" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="辆数:"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_18" />
+        <TextView
+            android:id="@+id/tv_trainCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="16"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_18"
+            android:layout_marginRight="@dimen/space_10" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_show"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/space_10"
+            android:layout_marginRight="@dimen/space_10"
+            android:background="@color/color_gray_c" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="@dimen/space_10"
+            android:layout_marginRight="@dimen/space_10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_testName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/space_5"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/text_size_20" />
+
+            <View
+                android:layout_width="@dimen/space_1"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/space_15"
+                android:layout_marginBottom="@dimen/space_15"
+                android:background="@color/color_gray_c" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_5"
+                android:layout_weight="5"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/ll_mainPressureValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="主管"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_18" />
+
+                        <EditText
+                            android:id="@+id/et_mainPressureValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:minWidth="@dimen/space_30"
+                            android:text="0"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_20" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="kPa"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_18" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_dropValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="减压"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_18" />
+
+                        <EditText
+                            android:id="@+id/et_dropValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:minWidth="@dimen/space_30"
+                            android:text="0"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_20" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="kPa"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_18" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/ll_keepTime"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="保压"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_18" />
+
+                        <EditText
+                            android:id="@+id/et_keepTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:minWidth="@dimen/space_30"
+                            android:text="0"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_20" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="秒"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_18" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_leakValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="漏泄"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_18" />
+
+                        <EditText
+                            android:id="@+id/et_leakValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:minWidth="@dimen/space_30"
+                            android:text="0"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_16" />
+
+                        <TextView
+                            android:id="@+id/tv_leakUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="kPa"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/text_size_18" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/space_10"
+            android:layout_marginRight="@dimen/space_10"
+            android:background="@color/color_gray_c" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_10"
+            android:layout_marginTop="@dimen/space_10"
+            android:layout_marginRight="@dimen/space_10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_testLeak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_color"
+                android:gravity="center"
+                android:paddingTop="@dimen/space_5"
+                android:paddingBottom="@dimen/space_5"
+                android:text="漏泄试验"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/text_size_20"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_save"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_10"
+                android:layout_marginRight="@dimen/space_10"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray"
+                android:gravity="center"
+                android:paddingTop="@dimen/space_5"
+                android:paddingBottom="@dimen/space_5"
+                android:text="保存"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/text_size_20" />
+
+            <TextView
+                android:id="@+id/tv_exit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray"
+                android:gravity="center"
+                android:paddingTop="@dimen/space_5"
+                android:paddingBottom="@dimen/space_5"
+                android:text="取消"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/text_size_20" />
+        </LinearLayout>
+    </LinearLayout>
+    <com.thnet.tailairbrakingtest.customcontrol.ChartView
+        android:id="@+id/image_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/space_5"/>
+</LinearLayout>

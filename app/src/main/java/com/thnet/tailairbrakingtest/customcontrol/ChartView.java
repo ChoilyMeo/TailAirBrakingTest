@@ -1,0 +1,344 @@
+package com.thnet.tailairbrakingtest.customcontrol;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+
+import com.elvishew.xlog.XLog;
+import com.thnet.tailairbrakingtest.testwind.SysParamsAll;
+import com.thnet.tailairbrakingtest.testwind.TestContent;
+import com.thnet.tailairbrakingtest.testwind.TestData;
+import com.thnet.tailairbrakingtest.utility.DateTimeUtil;
+import com.thnet.tailairbrakingtest.utility.DensityUtil;
+
+import java.util.Date;
+
+public class ChartView extends View {
+    /**
+     * 横向水平线的数量
+     */
+    private final static int Y_SCALE_LEVEL_COUNT = 7;
+    /**
+     * 横向水平线展示的文字
+     */
+    private final static String[] Y_SCALE_TEXT = {"700", "600", "500", "400", "300", "200", "100"};
+    /**
+     * 横向水平线对应的压力值
+     */
+    private final static int[] Y_SCALE_VALUES = {700, 600, 500, 400, 300, 200, 100};
+    /**
+     * 坐标轴的线条粗细
+     */
+    private final static int DRAW_LINE_WIDTH_AXIS = 2;
+    /**
+     * 曲线的线条粗细
+     */
+    private final static int DRAW_LINE_WIDTH_CHART = 3;
+    /**
+     * Y坐标的数据最大值
+     */
+    private final static int Y_MAX_DATA_VALUE = 700;
+    /**
+     * 两点之间的曲线的X长度，用来控制曲线的横向颗粒度
+     */
+    private static int POINT_WIDTH = 2;
+    /**
+     * 曲线的X长度的倍数，由于接收数据的频率增加，所以在试验时间内例如3分钟内的试验点数增加，导致试验的框的范围太大，因此需要设置一个倍数，即多少个压力点数才显示一个像素
+     * 当前设置为2，即两个压力会在曲线上显示为一个X点
+     */
+    private static int AXIS_MULTIPLE = 1;
+    private int mViewWidth, mViewHeight, mTextBaseLineToTop, mChartViewWidth, mChartViewHeight, mChartViewStartPos, mScaleYaxisTextSize, mTextHeight;
+    private int mViewDataStartPos = 0;
+    private float mScaleYaxis;
+    private Paint mAxisPaint, mChartLinePaint, mLevelLinePaint, mTextPaint;
+    private Path mLinePath;
+    private TestData mViewTestData;
+    private boolean mCanScroll = false;
+    private float mMoveStartX;
+    private int mMoveOffsetX;
+    public ChartView(Context context) {
+        super(context);
+        init();
+    }
+
+    public ChartView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    public ChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init(){
+        try {
+            //由于屏幕像素有限，压力获取的太频繁的话，通用的试验时间内（例如保压3分钟）会显示太多的点，导致试验框太宽，屏幕显示不下
+            //因此根据设置的获取压力的定时时间，来设置多少个压力点合并到一个显示，按照目前的4000毫秒不压缩作为参照
+            //设置1000毫秒，就需要压缩为原来的四分之一，即除以4
+            int timerCount = SysParamsAll.get_sendCommandTimer();
+            if (timerCount == 0){
+                timerCount = 4000;
+            }
+            AXIS_MULTIPLE = 4000 / timerCount;
+            if (AXIS_MULTIPLE <= 0 || AXIS_MULTIPLE >= 10){
+                AXIS_MULTIPLE = 1;
+            }
+            //曲线的横向颗粒度也从参数获取
+            POINT_WIDTH = SysParamsAll.get_pointWidth();
+            if (POINT_WIDTH <= 0 || POINT_WIDTH > 4){
+                POINT_WIDTH = 2;
+            }
+            setWillNotDraw(false);
+            mLinePath = new Path();
+            //初始化坐标轴画笔
+            mAxisPaint = new Paint();
+            mAxisPaint.setAntiAlias(true);
+            mAxisPaint.setStrokeWidth(DRAW_LINE_WIDTH_AXIS);
+            mAxisPaint.setStyle(Paint.Style.STROKE);
+            //初始化水平线画笔
+            mLevelLinePaint = new Paint();
+            mLevelLinePaint.setAntiAlias(true);
+            mLevelLinePaint.setStrokeWidth(1);
+            mLevelLinePaint.setStyle(Paint.Style.STROKE);
+            mLevelLinePaint.setPathEffect(new DashPathEffect(new float[]{2, 2}, 0));
+            //初始化文字画笔
+            mTextPaint = new Paint();
+            mTextPaint.setAntiAlias(true);
+            mTextPaint.setTextAlign(Paint.Align.LEFT);
+            mTextPaint.setTextSize(DensityUtil.dp2px(20));
+            mTextBaseLineToTop = mTextPaint.getFontMetricsInt().top;
+            //初始化显示曲线画笔
+            mChartLinePaint = new Paint();
+            mChartLinePaint.setAntiAlias(true);
+            mChartLinePaint.setStrokeWidth(DRAW_LINE_WIDTH_CHART);
+            mChartLinePaint.setStyle(Paint.Style.STROKE);
+            //计算显示文字高度
+            mTextHeight = 0 - (mTextBaseLineToTop - mTextPaint.getFontMetricsInt().bottom);
+            //计算Y坐标轴文字显示宽度
+            mScaleYaxisTextSize = (int) mTextPaint.measureText(Y_SCALE_TEXT[0]) + 1;
+        } catch (Exception ex) {
+            XLog.e("试风曲线绘制控件初始化异常：" + ex.getMessage());
+        }
+    }
+
+    /**
+     * 画坐标轴
+     * @param canvas 画布
+     */
+    private void drawAxis(Canvas canvas){
+        //画坐标轴水平标线
+        mTextPaint.setColor(Color.BLACK);
+        for (int i = 0; i < Y_SCALE_LEVEL_COUNT && i < Y_SCALE_TEXT.length && i < Y_SCALE_VALUES.length; i++){
+            canvas.drawText(Y_SCALE_TEXT[i], 0, (Y_MAX_DATA_VALUE - Y_SCALE_VALUES[i]) * mScaleYaxis - mTextBaseLineToTop, mTextPaint);
+            mLinePath.reset();
+            mLinePath.moveTo(mScaleYaxisTextSize, (Y_MAX_DATA_VALUE - Y_SCALE_VALUES[i]) * mScaleYaxis);
+            mLinePath.lineTo(mViewWidth, (Y_MAX_DATA_VALUE - Y_SCALE_VALUES[i]) * mScaleYaxis);
+            canvas.drawPath(mLinePath, mLevelLinePaint);
+        }
+        //画坐标轴Y轴
+        mLinePath.reset();
+        mLinePath.moveTo(mScaleYaxisTextSize,0);
+        mLinePath.lineTo(mScaleYaxisTextSize, mChartViewHeight);
+        canvas.drawPath(mLinePath, mAxisPaint);
+        //画坐标轴X轴
+        mLinePath.reset();
+        mLinePath.moveTo(mScaleYaxisTextSize, mChartViewHeight);
+        mLinePath.lineTo(mViewWidth, mChartViewHeight);
+        canvas.drawPath(mLinePath, mAxisPaint);
+    }
+
+    /**
+     * 画曲线
+     * @param canvas 画布
+     */
+    private void drawChart(Canvas canvas){
+        if (null != mViewTestData){
+            mTextPaint.setColor(Color.BLACK);
+            String viewEndTime = "", viewStartTime = "";
+            if (null != mViewTestData.getStartTime()){
+                viewStartTime = mViewTestData.getStartTime();
+            }
+            canvas.drawText(viewStartTime, mScaleYaxisTextSize, mChartViewHeight - mTextBaseLineToTop, mTextPaint);
+            if (null == mViewTestData.getEndTime() || mViewTestData.getEndTime().isEmpty()){
+                viewEndTime = DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_HHmmss);
+            } else {
+                viewEndTime = mViewTestData.getEndTime();
+            }
+            int viewTextSize = (int) mTextPaint.measureText(viewEndTime) + 1;
+            canvas.drawText(viewEndTime, mViewWidth - viewTextSize, mChartViewHeight - mTextBaseLineToTop, mTextPaint);
+            if (mViewTestData.lstPressureValue.size() > 0){
+                String viewPressureValue = String.valueOf(mViewTestData.lstPressureValue.get(mViewTestData.lstPressureValue.size() - 1).getPressureValue());
+                viewTextSize = (int)mTextPaint.measureText(viewPressureValue);
+                canvas.drawText(viewPressureValue, mChartViewStartPos + mChartViewWidth / 2 - viewTextSize / 2, mChartViewHeight - mTextBaseLineToTop, mTextPaint);
+                mLinePath.reset();
+                mLinePath.moveTo(mChartViewStartPos, convertDataValueToYpos(mViewTestData.lstPressureValue.get(mViewDataStartPos).getPressureValue()));
+                int prePos = -1;
+                for (int i = mViewDataStartPos; i < mViewTestData.lstPressureValue.size(); i++){
+                    if (prePos != (i - mViewDataStartPos) / AXIS_MULTIPLE * POINT_WIDTH) {
+                        prePos = (i - mViewDataStartPos) / AXIS_MULTIPLE * POINT_WIDTH;
+                        mLinePath.lineTo(mChartViewStartPos + prePos, convertDataValueToYpos(mViewTestData.lstPressureValue.get(i).getPressureValue()));
+                    }
+                }
+                mChartLinePaint.setColor(Color.RED);
+                canvas.drawPath(mLinePath, mChartLinePaint);
+                for (TestContent testContent : mViewTestData.listTest){
+                    testContent.drawSelf(canvas, this);
+                }
+            }
+        }
+    }
+
+    public void drawTestRectangle(Canvas canvas, int xBeginPos, int xEndPos, int yPressureValue, int drawColor, String viewTestName){
+        Paint textPaint = getTextPaint();
+        textPaint.setColor(drawColor);
+        Paint linePaint = getChartLinePaint();
+        linePaint.setColor(drawColor);
+        int lineWidth = (int)linePaint.getStrokeWidth();
+        int textHeight = 0 - (textPaint.getFontMetricsInt().top - textPaint.getFontMetricsInt().bottom);
+        Rect testRect = new Rect(convertDataValuetoXpos(xBeginPos), (int)convertDataValueToYpos(yPressureValue) - textHeight / 2,
+                convertDataValuetoXpos(xEndPos) + lineWidth * 2, (int)convertDataValueToYpos(yPressureValue) + textHeight / 2 + lineWidth * 2);
+        canvas.drawRect(testRect, linePaint);
+        canvas.drawText(viewTestName, testRect.left + lineWidth, testRect.top - textPaint.getFontMetricsInt().top + lineWidth, textPaint);
+    }
+
+    public float convertDataValueToYpos(int dataValue){
+        if (dataValue < 0) {
+            dataValue = 0;
+        } else if (dataValue > Y_MAX_DATA_VALUE) {
+            dataValue = Y_MAX_DATA_VALUE;
+        }
+        return (Y_MAX_DATA_VALUE - dataValue) * mScaleYaxis;
+    }
+
+    public int convertDataValuetoXpos(int dataValue){
+        if (dataValue < mViewDataStartPos){
+            dataValue = mViewDataStartPos;
+        } else if (dataValue - mViewDataStartPos > mChartViewWidth / POINT_WIDTH * AXIS_MULTIPLE){
+            dataValue = mViewDataStartPos + mChartViewWidth / POINT_WIDTH * AXIS_MULTIPLE;
+        }
+        return (dataValue - mViewDataStartPos) / AXIS_MULTIPLE * POINT_WIDTH + mChartViewStartPos;
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        mViewWidth = getWidth() - 1;
+        mViewHeight = getHeight() - 1;
+        mChartViewWidth = mViewWidth - mScaleYaxisTextSize - DRAW_LINE_WIDTH_AXIS;
+        mChartViewHeight = mViewHeight - mTextHeight;
+        mChartViewStartPos = mScaleYaxisTextSize + DRAW_LINE_WIDTH_AXIS;
+        mScaleYaxis = ((float) mChartViewHeight) / Y_MAX_DATA_VALUE;
+        super.onSizeChanged(w, h, oldw, oldh);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        try{
+            drawAxis(canvas);
+            drawChart(canvas);
+            canvas.save();
+        } catch (Exception ex) {
+            XLog.e("试风曲线绘制异常：" + ex.getMessage());
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mCanScroll) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    XLog.d("点击事件：" + event.getX());
+                    mMoveStartX = event.getX();
+                    return true;
+                case MotionEvent.ACTION_MOVE:
+                    mMoveOffsetX = (int) (event.getX() - mMoveStartX);
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    XLog.d("横向移动距离" + mMoveOffsetX + "后松开事件：" + event.getX());
+                    if (mMoveOffsetX < 0) {
+                        viewRight(0 - mMoveOffsetX);
+                    } else {
+                        viewLeft(mMoveOffsetX);
+                    }
+                    return true;
+                default:
+                    break;
+            }
+        }
+        return super.onTouchEvent(event);
+    }
+
+    public boolean validTestViewInRange(int beginPos, int endPos){
+        return !(beginPos < 0 || beginPos < mViewDataStartPos || endPos < mViewDataStartPos || endPos < beginPos ||
+                endPos - mViewDataStartPos > mChartViewWidth / POINT_WIDTH * AXIS_MULTIPLE);
+    }
+
+    public void viewToEnd(){
+        if (mViewTestData.lstPressureValue.size() > mChartViewWidth / POINT_WIDTH * AXIS_MULTIPLE){
+            mViewDataStartPos = mViewTestData.lstPressureValue.size() - mChartViewWidth / POINT_WIDTH * AXIS_MULTIPLE;
+        }
+        invalidate();
+    }
+
+    public void viewToBegin(){
+        mViewDataStartPos = 0;
+        invalidate();
+    }
+
+    public void viewLeft(int size){
+        if (size <= 0) {
+            return;
+        }
+        if (mCanScroll) {
+            if (mViewDataStartPos >= size / POINT_WIDTH * AXIS_MULTIPLE) {
+                mViewDataStartPos -= size / POINT_WIDTH * AXIS_MULTIPLE;
+            } else {
+                mViewDataStartPos = 0;
+            }
+            invalidate();
+            XLog.d("向左移动"+size+"后刷新显示。");
+        }
+    }
+
+    public void viewRight(int size){
+        if (size <= 0) {
+            return;
+        }
+        if (mCanScroll) {
+            if (mViewDataStartPos + size / POINT_WIDTH * AXIS_MULTIPLE < mViewTestData.lstPressureValue.size() - mChartViewWidth / POINT_WIDTH * AXIS_MULTIPLE) {
+                mViewDataStartPos += size / POINT_WIDTH * AXIS_MULTIPLE;
+            }
+            invalidate();
+            XLog.d("向右移动"+size+"后刷新显示。");
+        }
+    }
+
+    public void setViewTestData(TestData mViewTestData) {
+        this.mViewTestData = mViewTestData;
+    }
+
+    public Paint getChartLinePaint() {
+        return mChartLinePaint;
+    }
+
+    public Paint getTextPaint() {
+        return mTextPaint;
+    }
+
+    public boolean isCanScroll() {
+        return mCanScroll;
+    }
+
+    public void setCanScroll(boolean mCanScroll) {
+        this.mCanScroll = mCanScroll;
+    }
+}

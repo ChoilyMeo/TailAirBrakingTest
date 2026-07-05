@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/work/AndroidProject/TailAirBrakingTest/app/src/main/res/layout/activity_input_info.xml" value="0.25181159420289856" />
+        <entry key="..\:/work/AndroidProject/TailAirBrakingTest/app/src/main/res/layout/activity_main.xml" value="0.2994791666666667" />
+        <entry key="..\:/work/AndroidProject/TailAirBrakingTest/app/src/main/res/layout/activity_search.xml" value="0.2994791666666667" />
+        <entry key="..\:/work/AndroidProject/TailAirBrakingTest/app/src/main/res/layout/activity_test.xml" value="0.22826086956521738" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
