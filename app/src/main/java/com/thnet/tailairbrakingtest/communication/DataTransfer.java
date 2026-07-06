@@ -45,6 +45,11 @@ public class DataTransfer implements OnSerialPortDataListener, OnOpenSerialPortL
         tData = new TestData();
     }
 
+    public DataTransfer(String testKind) {
+        XLog.i("准备开始试验，初始化串口并构建数据");
+        portInit();
+        tData = new TestData(testKind);
+    }
     public DataTransfer(String line, String trainNo, String trainCount, String specifyPressureValue, String testKind) {
         this();
         tData.setTrackNo(line);

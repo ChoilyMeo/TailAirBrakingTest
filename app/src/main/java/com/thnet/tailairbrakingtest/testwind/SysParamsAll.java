@@ -59,12 +59,19 @@ public class SysParamsAll {
     private static int _lxStandardLeak = 20;
     private static int _gdStandardDrop60u = 70;
     private static int _gdStandardDrop60d = 50;
+    private static int _zzyygdStandardDrop = 50;//重载运用感度减压量
+    private static int _zzzbgdStandardDrop = 50;//重载整备感度减压量
     private static int _gdStandardTime = 180;
+    private static int _zzyygdStandardTime = 180;//重载运用感度保压时间
+    private static int _zzzbgdStandardTime = 900;//重载整备感度保压时间
     private static int _adStandardTime = 3;;
     private static int _gdStandardLeak = 20;
+    private static int _zzyygdStandardLeak = 10;//重载运用感度漏泄量
+    private static int _zzzbgdStandardLeak = 20;//重载整备感度漏泄量
     private static int _adStandardLeak = 1000;
     private static int _adStandardDrop600 = 170;
     private static int _adStandardDrop500 = 140;
+    private static int _zzadStandardDrop = 170;//重载安定减压量，不区分定压500和600
     private static int _byStandardTime = 180;
     private static int _byStandardDrop = 100;
     private static int _byStandardLeak = 20;
@@ -177,13 +184,43 @@ public class SysParamsAll {
             {
                 _gdStandardDrop60u = Integer.parseInt(parms.getParamValue());
             }
+            //重载运用感度减压量
+            if (parms.getParamID().equals("ZZYYGDDrop"))
+            {
+                _zzyygdStandardDrop = Integer.parseInt(parms.getParamValue());
+            }
+            //重载整备感度减压量
+            if (parms.getParamID().equals("ZZZBGDDrop"))
+            {
+                _zzzbgdStandardDrop = Integer.parseInt(parms.getParamValue());
+            }
             if (parms.getParamID().equals("GDTime"))
             {
                 _gdStandardTime = Integer.parseInt(parms.getParamValue());
             }
+            //重载运用感度保压时间
+            if (parms.getParamID().equals("ZZYYGDTime"))
+            {
+                _zzyygdStandardTime = Integer.parseInt(parms.getParamValue());
+            }
+            //重载整备感度保压时间
+            if (parms.getParamID().equals("ZZZBGDTime"))
+            {
+                _zzzbgdStandardTime = Integer.parseInt(parms.getParamValue());
+            }
             if (parms.getParamID().equals("GDLeak"))
             {
                 _gdStandardLeak = Integer.parseInt(parms.getParamValue());
+            }
+            //重载运用感度漏泄量
+            if (parms.getParamID().equals("ZZYYGDLeak"))
+            {
+                _zzyygdStandardLeak = Integer.parseInt(parms.getParamValue());
+            }
+            //重载整备感度漏泄量
+            if (parms.getParamID().equals("ZZZBGDLeak"))
+            {
+                _zzzbgdStandardLeak = Integer.parseInt(parms.getParamValue());
             }
             if (parms.getParamID().equals("ADTime"))
             {
@@ -200,6 +237,11 @@ public class SysParamsAll {
             if (parms.getParamID().equals("ADDrop600"))
             {
                 _adStandardDrop600 = Integer.parseInt(parms.getParamValue());
+            }
+            //重载安定减压量的读取
+            if (parms.getParamID().equals("ZZADDrop"))
+            {
+                _zzadStandardDrop = Integer.parseInt(parms.getParamValue());
             }
             if (parms.getParamID().equals("BYTime"))
             {
@@ -462,6 +504,7 @@ public class SysParamsAll {
         SysParamsAll._EstiDataLen = _EstiDataLen;
     }
 
+    //判断压力稳定参数
     public static int get_fluxRange() {
         return _fluxRange;
     }
@@ -614,6 +657,24 @@ public class SysParamsAll {
         SysParamsAll._gdStandardTime = _gdStandardTime;
     }
 
+    //重载运用感度保压时间
+    public static int get_zzyygdStandardTime() {
+        return _zzyygdStandardTime;
+    }
+
+    public static void set_zzyygdStandardTime(int _gdStandardTime) {
+        SysParamsAll._zzyygdStandardTime = _gdStandardTime;
+    }
+
+    //重载运用感度保压时间
+    public static int get_zzzbgdStandardTime() {
+        return _zzzbgdStandardTime;
+    }
+
+    public static void set_zzzbgdStandardTime(int _gdStandardTime) {
+        SysParamsAll._zzzbgdStandardTime = _gdStandardTime;
+    }
+
     public static int get_gdStandardDrop(int ls) {
             if (ls >= 60)
             {
@@ -623,6 +684,16 @@ public class SysParamsAll {
             {
                 return _gdStandardDrop60d;
             }
+    }
+
+    //重载运用感度减压量
+    public static int get_zzyygdStandardDrop() {
+        return _zzyygdStandardDrop;
+    }
+
+    //重载整备感度减压量
+    public static int get_zzzbgdStandardDrop() {
+        return _zzzbgdStandardDrop;
     }
 
     public static int get_gdStandardLeak() {
@@ -638,6 +709,23 @@ public class SysParamsAll {
         SysParamsAll._gdStandardLeak = _gdStandardLeak;
     }
 
+    //重载运用感度漏泄量
+    public static int get_zzyygdStandardLeak() {
+        return _zzyygdStandardLeak;
+    }
+
+    public static void set_zzyygdStandardLeak(int _gdStandardLeak) {
+        SysParamsAll._zzyygdStandardLeak = _gdStandardLeak;
+    }
+
+    //重载整备感度漏泄量
+    public static int get_zzzbgdStandardLeak() {
+        return _zzzbgdStandardLeak;
+    }
+
+    public static void set_zzzbgdStandardLeak(int _gdStandardLeak) {
+        SysParamsAll._zzzbgdStandardLeak = _gdStandardLeak;
+    }
     public static int get_adStandardTime() {
         //设置时货车的话，安定试验不判断保压时间，因此保压时间标准值取最小值
         if (PARAM_KEHUOCHE_HUOCHE.equals(getKeHuoChe())){
@@ -668,6 +756,14 @@ public class SysParamsAll {
         {
             return _adStandardDrop600;
         }
+    }
+
+    public static int get_zzadStandardDrop() {
+        return _zzadStandardDrop;
+    }
+
+    public static void set_zzadStandardDrop(int _zzadStandardDrop){
+        SysParamsAll._zzadStandardDrop = _zzadStandardDrop;
     }
 
     public static int get_byStandardTime() {

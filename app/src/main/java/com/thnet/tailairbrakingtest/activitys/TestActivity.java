@@ -84,7 +84,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         //设置屏幕常亮
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_test);
-        dt = new DataTransfer();
         int intentType = getIntent().getIntExtra(PARAM_INTENT_TYPE,0);
         trackNo = getIntent().getStringExtra(PARAM_TRACK);
         trainNo = getIntent().getStringExtra(PARAM_TRAIN_NO);
@@ -92,6 +91,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         specifyPressure = getIntent().getStringExtra(PARAM_SPECIFIED_PRESSURE);
         testId = getIntent().getStringExtra(PARAM_TEST_ID);
         testKind = getIntent().getParcelableExtra(PARAM_TEST_KIND);
+        dt = new DataTransfer(testKind.getTestKindName());
         initView();
         //根据设置的定时器时间，定时刷新界面
         switch (intentType){

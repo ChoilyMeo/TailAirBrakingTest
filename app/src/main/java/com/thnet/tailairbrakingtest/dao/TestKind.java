@@ -23,6 +23,8 @@ public class TestKind implements Parcelable {
     public final static int MAX_TEST_KIND_COUNT = 10;
     public static final String TEST_KIND_NAME_ALL = "全部试验";
     public static final String TEST_KIND_NAME_SAMPLE = "简略试验";
+    public static final String TEST_KIND_NAME_HEAVEN_USE = "重载运用";
+    public static final String TEST_KIND_NAME_HEAVEN_REPAIR = "重载整备";
     private static final String TEST_CHECKED_VALUE = "1";
     private static final String TEST_NOT_CHECKED_VALUE = "0";
     private static final String[] TEST_NAME_ALL = {TestContent.TEST_NAME_LX, TestContent.TEST_NAME_GD, TestContent.TEST_NAME_AD, TestContent.TEST_NAME_BY, TestContent.TEST_NAME_JL};

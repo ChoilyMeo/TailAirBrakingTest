@@ -8,6 +8,7 @@ import com.thnet.tailairbrakingtest.customapplication.WindTestApplication;
 import com.thnet.tailairbrakingtest.dao.DaoSession;
 import com.thnet.tailairbrakingtest.dao.PressureValue;
 import com.thnet.tailairbrakingtest.dao.PressureValueDao;
+import com.thnet.tailairbrakingtest.dao.TestKind;
 import com.thnet.tailairbrakingtest.dao.TestWindContent;
 import com.thnet.tailairbrakingtest.dao.TestWindContentDao;
 import com.thnet.tailairbrakingtest.utility.StringUtil;
@@ -46,6 +47,32 @@ public class TestData {
         testLx = new Test_LX();
         testGd = new Test_GD();
         testAd = new Test_AD();
+        testBy = new Test_BY();
+        testJl = new Test_JL();
+        listTest = new ArrayList<TestContent>(0);
+        listTest.add(testLx);
+        listTest.add(testGd);
+        listTest.add(testAd);
+        listTest.add(testBy);
+        listTest.add(testJl);
+        lstPressureValue = new ArrayList<PressureValue>(0);
+        setTestDate(formatterDate.format(new Date()));
+        mTestContent.setTestOperator(SysParamsAll.get_testOperatorName());
+    }
+
+    //对重载车的运用和整备采取不同的试验策略
+    public TestData(String testKind) {
+        testLx = new Test_LX();
+        if (TestKind.TEST_KIND_NAME_HEAVEN_USE.equals(testKind)){
+            testGd = new Test_GD_ZZYY();
+            testAd = new Test_AD_ZZ();
+        } else if (TestKind.TEST_KIND_NAME_HEAVEN_REPAIR.equals(testKind)) {
+            testGd = new Test_GD_ZZZB();
+            testAd = new Test_AD_ZZ();
+        } else {
+            testGd = new Test_GD();
+            testAd = new Test_AD();
+        }
         testBy = new Test_BY();
         testJl = new Test_JL();
         listTest = new ArrayList<TestContent>(0);
