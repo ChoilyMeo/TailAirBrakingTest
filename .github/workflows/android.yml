@@ -1,7 +1,7 @@
 name: Build APK
 on:
   push:
-    branches: [ main ] #改成你实际的分支，比如master
+    branches: [ master ] #改成你实际的分支，比如master
   workflow_dispatch: #网页手动触发打包
 
 jobs:
