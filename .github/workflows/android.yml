@@ -1,0 +1,52 @@
+name: Build APK
+on:
+  push:
+    branches: [ main ] #改成你实际的分支，比如master
+  workflow_dispatch: #网页手动触发打包
+
+jobs:
+  build:
+    runs-on: ubuntu‑latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # JDK：compileSdk28 项目使用JDK8
+      - name: Setup JDK 8
+        uses: actions/setup‑java@v4
+        with:
+          java‑version: '8'
+          distribution: 'temurin'
+          cache: gradle
+
+      # 关键：下载你项目指定 NDK 21.0.6113669
+      - name: Install Android NDK 21.0.6113669
+        uses: android‑actions/setup‑android‑ndk@v1
+        with:
+          ndk‑version: '21.0.6113669'
+
+      # gradlew权限
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      # 编译 debug包；会自动执行greendao生成dao代码、拆分abi apk
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      # 编译release(无签名，仅编译产物；不能直接安装发布)
+      - name: Build Release APK (unsigned)
+        run: ./gradlew assembleRelease
+
+      # 上传Debug所有ABI分包APK
+      - name: Upload Debug APK Artifacts
+        uses: actions/upload‑artifact@v4
+        with:
+          name: debug‑apks
+          path: app/build/outputs/apk/debug/*.APK
+
+      # 上传未签名Release分包APK
+      - name: Upload Release‑Unsigned APK Artifacts
+        uses: actions/upload‑artifact@v4
+        with:
+          name: release‑unsigned‑apks
+          path: app/build/outputs/apk/release/*.APK
