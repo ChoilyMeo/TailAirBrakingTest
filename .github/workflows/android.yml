@@ -12,8 +12,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup JDK 8
+      # Gradle运行器：JDK11（给gradle工具本身跑）
+      - name: Setup JDK 11 for Gradle runtime
         uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      # 额外安装 JDK8，用于Android编译
+      - name: Setup JDK8 for Android compile
+        uses: actions/setup-java@v4
+        id: jdk8
         with:
           java-version: '8'
           distribution: 'temurin'
@@ -38,7 +47,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
+      # 关键：给gradle指定编译用JDK8，JAVA_HOME仍然是11用于启动Gradle
       - name: Assemble Debug APK
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.java.home=${{ steps.jdk8.outputs.java-home }}"
         run: ./gradlew assembleDebug
 
       - name: Upload Debug APK
