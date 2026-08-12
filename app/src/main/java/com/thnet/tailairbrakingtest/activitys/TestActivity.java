@@ -269,7 +269,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                         TipSoundPlayer.PlayVoicePrompts(TipSoundPlayer.VOICE_FILE_NAME_END_TEST_WIND);
                         XLog.e("状态异常：" + SysParamsAll.get_autoSave()+","+dt.tData.lstPressureValue.size());
                         if (0 != SysParamsAll.get_autoSave() && dt.tData.lstPressureValue.size() > 0){
-                            dt.tData.update();
+                            //dt.tData.update();
                             if (saveData()) {
                                 Toast.makeText(TestActivity.this, "试验结束，数据自动保存成功。", Toast.LENGTH_SHORT).show();
                             } else {
