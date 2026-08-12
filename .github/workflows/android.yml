@@ -37,6 +37,16 @@ jobs:
       - name: Grant gradlew execute permission
         run: chmod +x ./gradlew
 
+      # 校验 jar 包完整性与 so 结构
+      - name: 校验 serialportlib.jar 完整性
+        run: |
+          echo "=== libs 目录文件列表 ==="
+          ls -lh app/libs/
+          echo -e "\n=== jar 包完整性检测 ==="
+          unzip -t app/libs/serialportlib.jar
+          echo -e "\n=== jar 内 so 文件路径 ==="
+          unzip -l app/libs/serialportlib.jar | grep -E "\.so|lib/"
+
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
