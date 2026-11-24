@@ -3,10 +3,24 @@ package com.thnet.tailairbrakingtest.testwind;
 import com.thnet.tailairbrakingtest.customapplication.WindTestApplication;
 import com.thnet.tailairbrakingtest.dao.DaoSession;
 import com.thnet.tailairbrakingtest.dao.SysParms;
+import com.thnet.tailairbrakingtest.dao.SysParmsDao;
 
 import java.util.List;
 
 public class SysParamsAll {
+    //软键盘左侧三个字母按键对应的参数ID
+    public static final String PARAM_ID_FIRST_LETTER = "Letter1";
+    public static final String PARAM_ID_SECOND_LETTER = "Letter2";
+    public static final String PARAM_ID_THIRD_LETTER = "Letter3";
+    public static final String PARAM_NAME_FIRST_LETTER = "第一个字母";
+    public static final String PARAM_NAME_SECOND_LETTER = "第二个字母";
+    public static final String PARAM_NAME_THIRD_LETTER = "第三个字母";
+    public static final String DEFAULT_FIRST_LETTER = "K";
+    public static final String DEFAULT_SECOND_LETTER = "T";
+    public static final String DEFAULT_THIRD_LETTER = "Z";
+    private static final String PARAM_INDEX_FIRST_LETTER = "54";
+    private static final String PARAM_INDEX_SECOND_LETTER = "55";
+    private static final String PARAM_INDEX_THIRD_LETTER = "56";
     public static final int SpecifiedPressure500 = 500;
     public static final int SpecifiedPressure600 = 600;
     public static final int PARAM_MAX_STANDARD_LEAKVALUE_GD = 10000;
@@ -86,10 +100,16 @@ public class SysParamsAll {
     private static int _wcBaoYa = 1;
     private static String _protocolVer = "1.0";
     private static int _pointWidth = 2;//压力曲线横向显示的颗粒度，每两点之间用几个像素显示
+    //软键盘左侧从上到下三个字母按键的输入内容
+    private static String _firstLetter = DEFAULT_FIRST_LETTER;
+    private static String _secondLetter = DEFAULT_SECOND_LETTER;
+    private static String _thirdLetter = DEFAULT_THIRD_LETTER;
 
     public static List<SysParms> load(){
         //从配置文件加载参数
         DaoSession daoSession = WindTestApplication.getWindTestInstance().getDaoSession();
+        //数据库为预置文件，老版本升级后需补齐新增的参数项
+        ensureLetterParams(daoSession);
         List<SysParms> parmsList = daoSession.loadAll(SysParms.class);
         for (SysParms parms : parmsList){
             if (parms.getParamID().equals("PortName"))
@@ -311,8 +331,56 @@ public class SysParamsAll {
             {
                 _pointWidth = Integer.parseInt(parms.getParamValue());
             }
+            //软键盘左侧第一个字母
+            if (parms.getParamID().equals(PARAM_ID_FIRST_LETTER))
+            {
+                _firstLetter = getLetterValue(parms.getParamValue(), DEFAULT_FIRST_LETTER);
+            }
+            //软键盘左侧第二个字母
+            if (parms.getParamID().equals(PARAM_ID_SECOND_LETTER))
+            {
+                _secondLetter = getLetterValue(parms.getParamValue(), DEFAULT_SECOND_LETTER);
+            }
+            //软键盘左侧第三个字母
+            if (parms.getParamID().equals(PARAM_ID_THIRD_LETTER))
+            {
+                _thirdLetter = getLetterValue(parms.getParamValue(), DEFAULT_THIRD_LETTER);
+            }
         }
         return parmsList;
+    }
+
+    /**
+     * 读取字母参数值，为空时使用默认值
+     */
+    private static String getLetterValue(String paramValue, String defaultValue) {
+        if (paramValue == null || paramValue.trim().isEmpty()) {
+            return defaultValue;
+        }
+        return paramValue.trim();
+    }
+
+    /**
+     * 补齐软键盘字母参数项，预置数据库中不存在时写入默认值
+     */
+    private static void ensureLetterParams(DaoSession daoSession) {
+        SysParmsDao dao = daoSession.getSysParmsDao();
+        ensureLetterParam(dao, PARAM_ID_FIRST_LETTER, PARAM_NAME_FIRST_LETTER,
+                DEFAULT_FIRST_LETTER, PARAM_INDEX_FIRST_LETTER);
+        ensureLetterParam(dao, PARAM_ID_SECOND_LETTER, PARAM_NAME_SECOND_LETTER,
+                DEFAULT_SECOND_LETTER, PARAM_INDEX_SECOND_LETTER);
+        ensureLetterParam(dao, PARAM_ID_THIRD_LETTER, PARAM_NAME_THIRD_LETTER,
+                DEFAULT_THIRD_LETTER, PARAM_INDEX_THIRD_LETTER);
+    }
+
+    private static void ensureLetterParam(SysParmsDao dao, String paramId, String paramName,
+                                          String defaultValue, String paramIndex) {
+        List<SysParms> parmsList = dao.queryBuilder()
+                .where(SysParmsDao.Properties.ParamID.eq(paramId))
+                .list();
+        if (parmsList == null || parmsList.isEmpty()) {
+            dao.insert(new SysParms(null, paramId, paramName, defaultValue, paramIndex));
+        }
     }
 
     public static String get_testOperator() {
@@ -849,5 +917,32 @@ public class SysParamsAll {
 
     public static void set_pointWidth(int _pointWidth) {
         SysParamsAll._pointWidth = _pointWidth;
+    }
+
+    //软键盘左侧第一个字母
+    public static String get_firstLetter() {
+        return _firstLetter;
+    }
+
+    public static void set_firstLetter(String _firstLetter) {
+        SysParamsAll._firstLetter = _firstLetter;
+    }
+
+    //软键盘左侧第二个字母
+    public static String get_secondLetter() {
+        return _secondLetter;
+    }
+
+    public static void set_secondLetter(String _secondLetter) {
+        SysParamsAll._secondLetter = _secondLetter;
+    }
+
+    //软键盘左侧第三个字母
+    public static String get_thirdLetter() {
+        return _thirdLetter;
+    }
+
+    public static void set_thirdLetter(String _thirdLetter) {
+        SysParamsAll._thirdLetter = _thirdLetter;
     }
 }

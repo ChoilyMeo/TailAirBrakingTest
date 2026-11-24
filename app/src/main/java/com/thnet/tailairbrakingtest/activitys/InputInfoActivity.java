@@ -27,6 +27,7 @@ import com.thnet.tailairbrakingtest.customcontrol.IEditText;
 import com.thnet.tailairbrakingtest.customcontrol.IKeyboardView;
 import com.thnet.tailairbrakingtest.dao.TestKind;
 import com.thnet.tailairbrakingtest.R;
+import com.thnet.tailairbrakingtest.testwind.SysParamsAll;
 import com.thnet.tailairbrakingtest.adapters.TestKindAdapter;
 import com.thnet.tailairbrakingtest.utility.KeyBoardUtil;
 
@@ -237,13 +238,13 @@ public class InputInfoActivity extends AppCompatActivity implements View.OnClick
                 Editable editable = etTrainNo.getText();
                 int start = etTrainNo.getSelectionStart();
                 if (event.getKeyCode() == KeyEvent.KEYCODE_F1){
-                    editable.insert(start, "K");
+                    editable.insert(start, SysParamsAll.get_firstLetter());
                     return true;
                 } else if (event.getKeyCode() == KeyEvent.KEYCODE_F2){
-                    editable.insert(start, "T");
+                    editable.insert(start, SysParamsAll.get_secondLetter());
                     return true;
 //                } else if (event.getKeyCode() == KeyEvent.KEYCODE_F3){
-//                    editable.insert(start, "Z");
+//                    editable.insert(start, SysParamsAll.get_thirdLetter());
 //                    return true;
                 }
             }

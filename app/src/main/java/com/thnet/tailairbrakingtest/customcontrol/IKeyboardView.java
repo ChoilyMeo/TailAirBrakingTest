@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.thnet.tailairbrakingtest.R;
+import com.thnet.tailairbrakingtest.testwind.SysParamsAll;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,8 @@ public class IKeyboardView extends KeyboardView implements KeyboardView.OnKeyboa
     private void init() {
         keyboardNumber = new Keyboard(getContext(), R.xml.keyboard_num);
         keyboardLetter = new Keyboard(getContext(), R.xml.keyboard_letter);
+        //按参数配置显示左侧三个字母按键
+        applyLetterLabels();
         //设置一些不需要预览的键位
         for (int i = 0; i < arrays.length; i++) {
             noLists.add(arrays[i]);
@@ -78,6 +81,26 @@ public class IKeyboardView extends KeyboardView implements KeyboardView.OnKeyboa
 
     public void setEditText(EditText editText){
         this.mEditText = editText;
+    }
+
+    /**
+     * 按参数配置设置数字键盘左侧三个字母按键的显示文字
+     */
+    private void applyLetterLabels() {
+        setKeyLabel(keyboardNumber, KEYCODE_F1, SysParamsAll.get_firstLetter());
+        setKeyLabel(keyboardNumber, KEYCODE_F2, SysParamsAll.get_secondLetter());
+        setKeyLabel(keyboardNumber, KEYCODE_F3, SysParamsAll.get_thirdLetter());
+    }
+
+    private void setKeyLabel(Keyboard keyboard, int keyCode, String label) {
+        if (keyboard == null || label == null || label.isEmpty()) {
+            return;
+        }
+        for (Keyboard.Key key : keyboard.getKeys()) {
+            if (key.codes != null && key.codes.length > 0 && key.codes[0] == keyCode) {
+                key.label = label;
+            }
+        }
     }
 
 
@@ -127,13 +150,13 @@ public class IKeyboardView extends KeyboardView implements KeyboardView.OnKeyboa
                 setKeyboard(keyboardLetter);
                 break;
             case KEYCODE_F1:
-                editable.insert(start, "K");
+                editable.insert(start, SysParamsAll.get_firstLetter());
                 break;
             case KEYCODE_F2:
-                editable.insert(start, "T");
+                editable.insert(start, SysParamsAll.get_secondLetter());
                 break;
             case KEYCODE_F3:
-                editable.insert(start, "Z");
+                editable.insert(start, SysParamsAll.get_thirdLetter());
                 break;
             default:
                     editable.insert(start, Character.toString((char) primaryCode));
